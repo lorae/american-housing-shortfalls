@@ -80,7 +80,7 @@ fig02 <- plot_year_subgroup_bars(
   ymin = 0, ymax = 100,
   ytitle = "Headship Rate",
   legend = TRUE,
-  title = "Headship Rate by Age Group and Year",
+  title = NULL,
   show_labels = FALSE, 
   axis_percent = TRUE 
 )
@@ -89,7 +89,7 @@ fig02
 
 # ----- Step 4: Save plots ----- #
 ggsave(
-  "output/figures/fine-grained/fig02-headship-age-year-bars.png",
+  "output/figures/fig02-headship-age-year-bars.png",
   plot = fig02,
   width = 3000, height = 2000, units = "px", dpi = 300
 )

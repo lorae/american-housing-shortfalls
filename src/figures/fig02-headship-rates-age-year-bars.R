@@ -89,7 +89,7 @@ fig02
 
 # ----- Step 4: Save plots ----- #
 ggsave(
-  "output/figures/fig02-headship-age-year-bars.png",
+  "output/figures/fig02-headship-age-year-bars.jpeg",
   plot = fig02,
   width = 3000, height = 2000, units = "px", dpi = 300
 )

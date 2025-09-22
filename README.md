@@ -30,7 +30,7 @@ Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (During
 
 ### 3. Initialize R environment
 
-This step installs all the dependencies (packages) needed to make the code run on your computer. Depending on the packages that you already have installed, you may have to wait anywhere between a few seconds to a few hours for this step to run.
+This step installs all the dependencies (packages) needed to make the code run on your computer. Depending on your installed packages, this setup step may take from a few minutes to over an hour to run.
 
 Make sure the `renv` package is already installed and attached. Run the following in your R console:
 ```r

@@ -24,9 +24,25 @@ cd your/path/to/parent/directory
 git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
 ```
 
-### 2. Open in R Studio
+### 2. Open R project
 
-...TBC
+Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (During development of this code, R Studio was used).
+
+### 3. Initialize R environment
+
+Make sure the `renv` package is already installed and attached. Run the following in your R console:
+```r
+install.packages("renv")
+library("renv")
+```
+
+Then initialize the project:
+```r
+renv::init()
+```
+You'll be told that this project already has a lockfile. Select option 1: "Restore the project from the lockfile".
+
+Depending on the packages that already exist on your local computer, you may have to wait anywhere between a few seconds to a few hours for all of the files to install and attach.
 
 # `data` directory
 If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:

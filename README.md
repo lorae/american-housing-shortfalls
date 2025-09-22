@@ -1,9 +1,32 @@
-# Household Size Demographics
+# American Housing Shortfalls
 
 This repository provides full replication code for analyzing the extent to which American household sizes have changed over time, and by sociodemographic dimension. Detailed instructions for running the code follow.
 
 TODO: consolidate the .env (SLURM setup) and .Rproject instructions into one config section of this document
 
+# Project setup
+
+To run this project, the user should have a working familiarity with R and git. For terminal commands, follow the `bash/zsh` instructions if you're using a Mac OS and the `powershell` instruction if you're using Windows.
+
+### 1. Clone the repo to your local computer
+
+Open a terminal on your computer. Navigate to the directory you would like to be the parent directory of the repo, then clone the repo.
+
+On Windows:
+```bash
+cd your\path\to\parent\directory
+git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
+```
+
+macOS/Linux:
+```cmd
+cd your/path/to/parent/directory
+git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
+```
+
+### 2. Open in R Studio
+
+...TBC
 
 # `data` directory
 If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:

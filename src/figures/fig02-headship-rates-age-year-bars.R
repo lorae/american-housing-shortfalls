@@ -39,14 +39,8 @@ bar_fills <- list(
   per2 = list(color = "forestgreen", alpha = 0.5, line_type = "solid")   # 2019
 )
 
-# =======================
-# A05 (persons per bedroom)
-# =======================
-ymin_XX <- 0
-ymax_XX <- 100
-ytitle_XX <- "Headship Rate"
-
-figXX_data <- crosstab_mean(
+# Generate data for bar chart
+fig02_data <- crosstab_mean(
   data = ipums_db |> filter(GQ %in% c(0,1,2)),
   value = "is_hoh",
   wt_col = "PERWT",
@@ -78,8 +72,9 @@ figXX_data <- crosstab_mean(
     )
   )
 
-figXX <- plot_year_subgroup_bars(
-  figXX_data,
+# Produce chart
+fig02 <- plot_year_subgroup_bars(
+  fig02_data,
   yvar = is_hoh,
   bar_fills = bar_fills,
   ymin = 0, ymax = 100,
@@ -90,11 +85,11 @@ figXX <- plot_year_subgroup_bars(
   axis_percent = TRUE 
 )
 
-figXX
+fig02
 
 # ----- Step 4: Save plots ----- #
 ggsave(
-  "output/figures/fine-grained/figXX-headship-age-year.png",
-  plot = figXX,
+  "output/figures/fine-grained/fig02-headship-age-year-bars.png",
+  plot = fig02,
   width = 3000, height = 2000, units = "px", dpi = 300
 )

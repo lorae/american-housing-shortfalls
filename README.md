@@ -15,12 +15,16 @@ Open a terminal on your computer. Navigate to the directory you would like to be
 On Windows:
 ```bash
 cd your\path\to\parent\directory
+```
+```bash
 git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
 ```
 
 macOS/Linux:
 ```cmd
 cd your/path/to/parent/directory
+```
+```cmd
 git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
 ```
 
@@ -35,6 +39,8 @@ This step installs all the dependencies (packages) needed to make the code run o
 Make sure the `renv` package is already installed and attached. Run the following in your R console:
 ```r
 install.packages("renv")
+```
+```r
 library("renv")
 ```
 

@@ -27,7 +27,7 @@ library("shiny")
 library("DT")
 
 # temp: set working directory
-setwd("/scratch/gpfs/ls4540/household-size-demographics")
+setwd("/scratch/gpfs/ls4540/american-housing-shortfalls")
 
 # ----- Step 1: Load and process IPUMS data ----- #
 

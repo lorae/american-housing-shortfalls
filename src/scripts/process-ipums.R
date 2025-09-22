@@ -20,7 +20,7 @@ library("readxl")
 library("dbplyr")
 
 # temp: set working directory
-setwd("/scratch/gpfs/ls4540/household-size-demographics")
+setwd("/scratch/gpfs/ls4540/american-housing-shortfalls")
 
 # ----- Step 1: Source helper functions ----- #
 

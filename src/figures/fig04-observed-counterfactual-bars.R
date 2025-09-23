@@ -29,7 +29,6 @@ cf_summaries <- readRDS("throughput/fine-grained-cf-summaries.rds")
 
 # ----- Step 3: Make plots ----- #
 p <- make_observed_cf_barplot(cf_summaries |> filter(name == "Number of Persons"), yaxis_override = c(3, 3.5))
-p
 
 h <- make_observed_cf_barplot(
     cf_summaries |> 
@@ -43,13 +42,13 @@ h <- make_observed_cf_barplot(
     label_format = "%.2f%%"
 ) +
   scale_y_continuous(labels = label_percent(scale = 1)) 
-h
 
-fig03 <- p + h
+fig04 <- p + h
+
 # ----- Step 4: Save plots ----- #
 ggsave(
-  "output/figures/fine-grained/fig03-observed-expected-barshhsize.png",
-  plot = fig03,
+  "output/figures/fig04-observed-counterfactual-bars.jpeg",
+  plot = fig04,
   width = 3000, height = 2000, units = "px", dpi = 300
 )
 

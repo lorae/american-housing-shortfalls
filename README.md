@@ -13,16 +13,7 @@ These steps will allow you to install the code on your computer that runs this p
 
 1. **Clone the repo**: Open a terminal on your computer. Navigate to the directory you would like to be the parent directory of the repo, then clone the repo.
 
-    On Windows:
-    
-    ```bash
-    cd your\path\to\parent\directory
-    ```
-    ```bash
-    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
-    ```
-    
-    macOS/Linux:
+    MacOS/Linux:
     
     ```cmd
     cd your/path/to/parent/directory
@@ -30,12 +21,21 @@ These steps will allow you to install the code on your computer that runs this p
     ```cmd
     git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
     ```
+    
+    Windows:
+    
+    ```bash
+    cd your\path\to\parent\directory
+    ```
+    ```bash
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
+    ```
 
 2. **Open the R project**: Navigate into the directory, now located at `your/path/to/parent/directory/american-housing-shortfalls`.
 Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (We use R Studio.)
 
     Every subsequent time you work with the project code, you should always open the `american-housing-shortfalls.Rproj` file
-    at the beginning of your work session. This will avoid common errors with broken file paths / working directory issues.
+    at the beginning of your work session. This will avoid common issues with broken file paths or an incorrect working directory.
 
 3. **Initialize R environment**: Install all the dependencies (packages) needed to make the code run on your computer. 
 Depending on which packages you may have already installed on your computer, this setup step may take from a few minutes to over 
@@ -65,42 +65,30 @@ The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from di
 the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
 we explain this process and how to "order" a data extract that exactly matches the one used in this study.
 
-4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory.
+4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
+You can do this manually or use the following terminal commands:
 
-    On macOS/Linux:
+    MacOS/Linux:
+    
     ```bash
     cp example.Renviron .Renviron
     ```
     
     Windows:
+    
     ```cmd
     copy example.Renviron .Renviron
     ```
     
-5. **If you don't already have one, set up a free account on [IPUMS USA](https://uma.pop.umn.edu/usa/user/new)**.
-Use the new account to login to the [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy
-your API key from this webpage.
+5. **Set up your IPUMS USA API key**: If you don't already have one, set up a free account on 
+[IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
+[IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
 
 6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
 R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
 from the codebase.
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
-
-6. **Copy the file** `sample.Renviron` to a new file named `.Renviron` in the project root directory.
-
-    On macOS/Linux:
-    ```bash
-    cp sample.Renviron .Renviron
-    ```
-    
-    Windows:
-    ```cmd
-    copy sample.Renviron .Renviron
-    ```
-3. **Open `.Renviron`** and replace `your_api_key` with your actual key.  Do not include quotation marks. R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate from the codebase.
-
-    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
 
 
 

@@ -374,12 +374,12 @@ environment on which the code was developed.</p>
 <li><p><strong>Clone the repo</strong>: Open a terminal on your
 computer. Navigate to the directory you would like to be the parent
 directory of the repo, then clone the repo.</p>
-<p>On Windows:</p>
-<pre class="bash"><code>cd your\path\to\parent\directory</code></pre>
-<pre class="bash"><code>git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls</code></pre>
-<p>macOS/Linux:</p>
+<p>MacOS/Linux:</p>
 <pre class="cmd"><code>cd your/path/to/parent/directory</code></pre>
-<pre class="cmd"><code>git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls</code></pre></li>
+<pre class="cmd"><code>git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls</code></pre>
+<p>Windows:</p>
+<pre class="bash"><code>cd your\path\to\parent\directory</code></pre>
+<pre class="bash"><code>git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls</code></pre></li>
 <li><p><strong>Open the R project</strong>: Navigate into the directory,
 now located at
 <code>your/path/to/parent/directory/american-housing-shortfalls</code>.
@@ -387,8 +387,8 @@ Open <code>american-housing-shortfalls.Rproj</code> using your preferred
 IDE for R. (We use R Studio.)</p>
 <p>Every subsequent time you work with the project code, you should
 always open the <code>american-housing-shortfalls.Rproj</code> file at
-the beginning of your work session. This will avoid common errors with
-broken file paths / working directory issues.</p></li>
+the beginning of your work session. This will avoid common issues with
+broken file paths or an incorrect working directory.</p></li>
 <li><p><strong>Initialize R environment</strong>: Install all the
 dependencies (packages) needed to make the code run on your computer.
 Depending on which packages you may have already installed on your
@@ -414,7 +414,41 @@ to download after setting up an IPUMS USA account. In this step, we
 explain this process and how to “order” a data extract that exactly
 matches the one used in this study.</p>
 <ol start="4" style="list-style-type: decimal">
-<li><p>If you don’t already have one, set up a free account on <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a>.</p></li>
+<li><p><strong>Copy the file</strong> <code>example.Renviron</code> to a
+new file named <code>.Renviron</code> in the project root directory. You
+can do this manually or use the following terminal commands:</p>
+<p>MacOS/Linux:</p>
+<pre class="bash"><code>cp example.Renviron .Renviron</code></pre>
+<p>Windows:</p>
+<pre class="cmd"><code>copy example.Renviron .Renviron</code></pre></li>
+<li><p><strong>If you don’t already have one, set up a free account on
+<a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a></strong>.
+Use the new account to login to the <a href="https://account.ipums.org/api_keys">IPUMS API Key</a> webpage.
+Copy your API key from this webpage.</p></li>
+<li><p><strong>Open <code>.Renviron</code></strong> and replace
+<code>your_ipums_api_key</code> with your actual key. Do not include
+quotation marks. R will automatically load <code>.Renviron</code> when
+you start a new session. This keeps your API key private and separate
+from the codebase.</p>
+<p>🛑 Important: <code>.Renviron</code> is listed in
+<code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
+— but <code>example.Renviron</code> is tracked, so do not put your
+actual API key in the example file.</p></li>
+<li><p><strong>Copy the file</strong> <code>sample.Renviron</code> to a
+new file named <code>.Renviron</code> in the project root directory.</p>
+<p>MacOS/Linux:</p>
+<pre class="bash"><code>cp sample.Renviron .Renviron</code></pre>
+<p>Windows:</p>
+<pre class="cmd"><code>copy sample.Renviron .Renviron</code></pre></li>
+<li><p><strong>Open <code>.Renviron</code></strong> and replace
+<code>your_api_key</code> with your actual key. Do not include quotation
+marks. R will automatically load <code>.Renviron</code> when you start a
+new session. This keeps your API key private and separate from the
+codebase.</p>
+<p>🛑 Important: <code>.Renviron</code> is listed in
+<code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
+— but <code>sample.Renviron</code> is tracked, so do not put your actual
+API key in the sample file.</p></li>
 <li><p>Navigate to the <a href="https://uma.pop.umn.edu/usa/authentication/login">IPUMS USA login
 page</a>. Log into the portal.</p></li>
 <li><p><code>data</code> directory: If you have cloned this repository

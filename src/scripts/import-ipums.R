@@ -1,20 +1,19 @@
 # import-ipums.R
 #
 # This script processes raw IPUMS data and saves it in a DuckDB file.
-# 
-# TODO: replace manual data pull with an API call for reproducibility.
-# For more on IPUMS and ipumsr: https://www.youtube.com/watch?v=OT6upQ1dBgU
-
+#
 # Input:
-# -  data/ipums-microdata/usa_0021.xml and data/ipums-microdata/usa_0021.dat.gz
-#    These files are not included in the GitHub repository due to their large file
-#    size. For instructions on downloading them, please refer to the README.md file 
-#    in the repository root.
+# -  makes API call to IPUMS USA. Be sure to follow Part B of project set-up
+#    in README.md before running - this script reads an environment variable from 
+#    .Renviron
+#
 # Output:
 # -  docs/ipums-data-dictionary.html
 #    Interactive data dictionary including the items from the IPUMS data pull
 # -  docs/ipums_value_labels.RData
 #    List containing value labels for every variable in the ipums data pull
+# -  the db (what is it called?)
+#    TODO
 
 # ----- Step 0: Load packages ----- #
 library("dplyr")

@@ -67,6 +67,9 @@ we explain this process and how to "order" a data extract that exactly matches t
 
 4. If you don't already have one, set up a free account on [IPUMS USA](https://uma.pop.umn.edu/usa/user/new).
 
+5. Use the new account to login to the [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy
+your API key.
+
 5. Navigate to the [IPUMS USA login page](https://uma.pop.umn.edu/usa/authentication/login). Log into the portal.
 
 6. `data` directory: If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:

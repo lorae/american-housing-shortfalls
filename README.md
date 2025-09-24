@@ -90,9 +90,8 @@ from the codebase.
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
 
-
-
-5. Navigate to the [IPUMS USA login page](https://uma.pop.umn.edu/usa/authentication/login). Log into the portal.
+--------
+OLD vvv
 
 6. `data` directory: If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:
 

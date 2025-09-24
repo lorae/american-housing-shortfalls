@@ -6,6 +6,7 @@
 # ----- Step 0: Configuration ----- #
 
 library(ipumsr)
+library(glue)
 
 if (!file.exists(".Renviron")) {
   stop(".Renviron file needed for this code to run. Please refer to Part B of the README file for configuration instructions.")
@@ -53,6 +54,8 @@ submitted <- submit_extract(ipums_extract)
 # Poll until extract is ready
 wait_for_extract(submitted) 
 
+# ----- Step 2: Download and save extract ----- #
+
 # Once ready, download the extract ZIP
 download_extract(
   submitted,
@@ -61,6 +64,8 @@ download_extract(
   api_key = api_key
 )
 
+extract_num <- sprintf("%05d", submitted$number)
 
-# ddi_file <- "data/ipums-microdata/ipums-extract.xml"
-# dat_file <- "data/ipums-microdata/ipums-extract.dat.gz"
+ddi_path <- glue("data/ipums-microdata/usa_{extract_num}.xml")
+dat_path <- glue("data/ipums-microdata/usa_{extract_num}.dat.gz")
+

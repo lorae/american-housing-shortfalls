@@ -65,20 +65,27 @@ The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from di
 the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
 we explain this process and how to "order" a data extract that exactly matches the one used in this study.
 
-4. **Copy the file** `example.env` to a new file named `.env` in the project root directory.
+4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory.
 
     On macOS/Linux:
     ```bash
-    cp example.env .env
+    cp example.Renviron .Renviron
     ```
     
     Windows:
     ```cmd
-    copy example.env .env
+    copy example.Renviron .Renviron
     ```
     
-4. If you don't already have one, set up a free account on [IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy
-your API key from this webpage
+5. **If you don't already have one, set up a free account on [IPUMS USA](https://uma.pop.umn.edu/usa/user/new)**.
+Use the new account to login to the [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy
+your API key from this webpage.
+
+6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
+R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
+from the codebase.
+
+    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
 
 6. **Copy the file** `sample.Renviron` to a new file named `.Renviron` in the project root directory.
 

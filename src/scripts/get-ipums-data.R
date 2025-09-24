@@ -50,5 +50,17 @@ ipums_extract <- define_extract_micro(
 # Submit extract request
 submitted <- submit_extract(ipums_extract)
 
-# Poll every 10 seconds until extract is ready
+# Poll until extract is ready
 wait_for_extract(submitted) 
+
+# Once ready, download the extract ZIP
+download_extract(
+  submitted,
+  download_dir = "data/ipums-microdata",
+  overwrite = TRUE,
+  api_key = api_key
+)
+
+
+# ddi_file <- "data/ipums-microdata/ipums-extract.xml"
+# dat_file <- "data/ipums-microdata/ipums-extract.dat.gz"

@@ -352,23 +352,94 @@ display: none;
 </div>
 
 
-<div id="household-size-demographics" class="section level1">
-<h1>Household Size Demographics</h1>
-<p>This repository provides full replication code for analyzing the
-extent to which American household sizes have changed over time, and by
-sociodemographic dimension. Detailed instructions for running the code
-follow.</p>
-<p>TODO: consolidate the .env (SLURM setup) and .Rproject instructions
-into one config section of this document</p>
+<div id="american-housing-shortfalls-replication-package" class="section level1">
+<h1>🏡 American Housing Shortfalls: Replication Package</h1>
+<p>This repository contains the full replication code for <em>Changes in
+Average Household Size and Headship Rates as Indicators of Housing
+Shortfalls</em> by Peter Hepburn and Lorae Stojanovic. We explain in
+detail how to replicate the analysis on your personal work
+environment.</p>
 </div>
-<div id="data-directory" class="section level1">
-<h1><code>data</code> directory</h1>
-<p>If you have cloned this repository from GitHub, it will include a
-<code>data</code> directory which contains an empty
-<code>ipums_microdata</code> directory. Because of the large file size,
-this data is not stored on GitHub. Either request the file directly from
-the authors or follow these instructions to download the data from IPUMS
-directly:</p>
+<div id="project-setup" class="section level1">
+<h1>Project setup</h1>
+<p>To run this project, the user should have both R and git installed on
+their computer, along with a working familiarity with both
+softwares.</p>
+<div id="part-a-clone-the-repo-and-configure-the-r-project" class="section level3">
+<h3>📦️ Part A: Clone the repo and configure the R project</h3>
+<p>These steps will allow you to install the code on your computer that
+runs this project and set up the environment so that it mimics the
+environment on which the code was developed.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Clone the repo</strong>: Open a terminal on your
+computer. Navigate to the directory you would like to be the parent
+directory of the repo, then clone the repo.</p>
+<p>On Windows:</p>
+<pre class="bash"><code>cd your\path\to\parent\directory</code></pre>
+<pre class="bash"><code>git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls</code></pre>
+<p>macOS/Linux:</p>
+<pre class="cmd"><code>cd your/path/to/parent/directory</code></pre>
+<pre class="cmd"><code>git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls</code></pre></li>
+<li><p><strong>Open the R project</strong>: Navigate into the directory,
+now located at
+<code>your/path/to/parent/directory/american-housing-shortfalls</code>.
+Open <code>american-housing-shortfalls.Rproj</code> using your preferred
+IDE for R. (We use R Studio.)</p>
+<p>Every subsequent time you work with the project code, you should
+always open the <code>american-housing-shortfalls.Rproj</code> file at
+the beginning of your work session. This will avoid common errors with
+broken file paths / working directory issues.</p></li>
+<li><p><strong>Initialize R environment</strong>: Install all the
+dependencies (packages) needed to make the code run on your computer.
+Depending on which packages you may have already installed on your
+computer, this setup step may take from a few minutes to over an
+hour.</p>
+<p>First, ensure you have the package manager, <code>renv</code>,
+installed. Run the following in your R console:</p>
+<pre class="r"><code>install.packages(&quot;renv&quot;) # Safe to run, even if you&#39;re not sure if you already have renv</code></pre>
+<pre class="r"><code>library(&quot;renv&quot;)</code></pre>
+<p>Then initialize the project:</p>
+<pre class="r"><code>renv::init()</code></pre>
+<p>At this point, a message will print into the console informing you
+that this project already has a lockfile. Select option
+<code>1: Restore the project from the lockfile</code>.</p></li>
+</ol>
+</div>
+<div id="part-b-download-raw-data-from-ipums-usa" class="section level3">
+<h3>📥️ Part B: Download raw data from IPUMS USA</h3>
+<p>The <a href="https://www.ipums.org/about/terms">IPUMS Terms of
+Use</a> precludes us from directly sharing the raw microdata extract,
+however, the data used in this analysis is freely available and simple
+to download after setting up an IPUMS USA account. In this step, we
+explain this process and how to “order” a data extract that exactly
+matches the one used in this study.</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>If you don’t already have one, set up a free account on <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a>.</p></li>
+<li><p>Navigate to the <a href="https://uma.pop.umn.edu/usa/authentication/login">IPUMS USA login
+page</a>. Log into the portal.</p></li>
+<li><p><code>data</code> directory: If you have cloned this repository
+from GitHub, it will include a <code>data</code> directory which
+contains an empty <code>ipums_microdata</code> directory. Because of the
+large file size, this data is not stored on GitHub. Either request the
+file directly from the authors or follow these instructions to download
+the data from IPUMS directly:</p></li>
+<li><p>Request a data extract with the following information:</p>
+<p><strong>Sample</strong> (count: 2)</p>
+<ul>
+<li>2000 5%</li>
+<li>2019 ACS 5yr</li>
+</ul>
+<p><strong>Variables</strong> (count: 110)</p>
+<ul>
+<li><a href="https://usa.ipums.org/usa-action/variables/YEAR">YEAR</a></li>
+<li><a href="https://usa.ipums.org/usa-action/variables/MULTYEAR">MULTYEAR</a></li>
+<li>TODO: fill out the rest</li>
+</ul></li>
+</ol>
+</div>
+<div id="part-c-run-the-analysis-scripts" class="section level3">
+<h3>📊 Part C: Run the analysis scripts</h3>
+</div>
 <div id="api-setup-census-data-access" class="section level2">
 <h2>API Setup: Census Data Access</h2>
 <p>Some scripts in this repository (e.g., for the McClure-Schwartz
@@ -391,18 +462,6 @@ codebase.</p>
 — but <code>sample.Renviron</code> is tracked, so do not put your actual
 API key in the sample file.</p></li>
 </ol>
-</div>
-<div id="download-from-ipums-usa" class="section level2">
-<h2>Download from IPUMS USA</h2>
-<ol style="list-style-type: decimal">
-<li><p>Navigate to the <a href="https://uma.pop.umn.edu/usa/authentication/login">IPUMS USA login
-page</a>. If you do not already have user credentials, you will need to
-set them up before proceeding. Log into the portal.</p></li>
-<li><p>Request a data extract with the following information:</p></li>
-</ol>
-<p><strong>Sample</strong> (count: 2) - 2000 5% - 2019 ACS 5yr</p>
-<p><strong>Variables</strong> (count: 110) - <a href="https://usa.ipums.org/usa-action/variables/YEAR">YEAR</a> - <a href="https://usa.ipums.org/usa-action/variables/MULTYEAR">MULTYEAR</a>
-- TODO: fill out the rest</p>
 </div>
 </div>
 <div id="running-the-code" class="section level1">
@@ -546,8 +605,7 @@ information. To use it:</p>
 <pre class="bash"><code>cp example.env .env</code></pre>
 <p>Then open <code>.env</code> in your preferred IDE / text editor and
 fill in your information. For example:</p>
-<pre class="bash"><code># .env
-SLURM_MAIL_USER=me@nowhere.com
+<pre class="bash"><code>SLURM_MAIL_USER=me@nowhere.com
 PROJECT_WORKDIR=your/file/path/to/household-size-demographics</code></pre>
 <p>Do not commit your <code>.env</code> file. It should be automatically
 ignored, as it is listed in <code>.gitignore.</code></p></li>
@@ -555,8 +613,10 @@ ignored, as it is listed in <code>.gitignore.</code></p></li>
 Before running a job, load the environment variables into your
 shell:</p>
 <pre class="bash"><code>source .env</code></pre>
-<p>Then submit the SLURM job as usual:</p>
-<pre class="bash"><code>TODO</code></pre>
+<p>Then submit the SLURM job as usual. You can run this test script to
+confirm your <code>.env</code> is configured correctly. Assuming it is,
+logs should show up in the <code>slurm-logs</code> directory:</p>
+<pre class="bash"><code>sbatch your/file/path/to/household-size-demographics/jobs/test-env.sh</code></pre>
 <p>The job script references your environment variables, ensuring your
 email address and file paths are never hardcoded into the script
 itself.</p></li>

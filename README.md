@@ -1,58 +1,92 @@
-# American Housing Shortfalls
+# 🏡 American Housing Shortfalls: Replication Package
 
-This repository provides full replication code for analyzing the extent to which American household sizes have changed over time, and by sociodemographic dimension. Detailed instructions for running the code follow.
-
-TODO: consolidate the .env (SLURM setup) and .Rproject instructions into one config section of this document
+This repository contains the full replication code for *Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
+by Peter Hepburn and Lorae Stojanovic. We explain in detail how to replicate the analysis on your personal work environment.
 
 # Project setup
 
-To run this project, the user should have a working familiarity with R and git.
+To run this project, the user should have both R and git installed on their computer, along with a working familiarity with both softwares.
    
-### 1. Clone the repo to your local computer
+### 📦️ Part A: Clone the repo and configure the R project
 
-Open a terminal on your computer. Navigate to the directory you would like to be the parent directory of the repo, then clone the repo.
+These steps will allow you to install the code on your computer that runs this project and set up the environment so that it mimics the environment on which the code was developed.
 
-On Windows:
-```bash
-cd your\path\to\parent\directory
-```
-```bash
-git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
-```
+1. **Clone the repo**: Open a terminal on your computer. Navigate to the directory you would like to be the parent directory of the repo, then clone the repo.
 
-macOS/Linux:
-```cmd
-cd your/path/to/parent/directory
-```
-```cmd
-git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
-```
+    On Windows:
+    
+    ```bash
+    cd your\path\to\parent\directory
+    ```
+    ```bash
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
+    ```
+    
+    macOS/Linux:
+    
+    ```cmd
+    cd your/path/to/parent/directory
+    ```
+    ```cmd
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
+    ```
 
-### 2. Open R project
+2. **Open the R project**: Navigate into the directory, now located at `your/path/to/parent/directory/american-housing-shortfalls`.
+Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (We use R Studio.)
 
-Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (During development of this code, R Studio was used).
+    Every subsequent time you work with the project code, you should always open the `american-housing-shortfalls.Rproj` file
+    at the beginning of your work session. This will avoid common errors with broken file paths / working directory issues.
 
-### 3. Initialize R environment
+3. **Initialize R environment**: Install all the dependencies (packages) needed to make the code run on your computer. 
+Depending on which packages you may have already installed on your computer, this setup step may take from a few minutes to over 
+an hour.
 
-This step installs all the dependencies (packages) needed to make the code run on your computer. Depending on your installed packages, this setup step may take from a few minutes to over an hour to run.
+    First, ensure you have the package manager, `renv`, installed. Run the following in your R console:
+    
+    ```r
+    install.packages("renv") # Safe to run, even if you're not sure if you already have renv
+    ```
+    ```r
+    library("renv")
+    ```
+    
+    Then initialize the project:
+    
+    ```r
+    renv::init()
+    ```
+    
+    At this point, a message will print into the console informing you that this project already has a lockfile. 
+    Select option `1: Restore the project from the lockfile`. 
 
-Make sure the `renv` package is already installed and attached. Run the following in your R console:
-```r
-install.packages("renv")
-```
-```r
-library("renv")
-```
+### 📥️ Part B: Download raw data from IPUMS USA
 
-Then initialize the project:
-```r
-renv::init()
-```
+The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
+the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
+we explain this process and how to "order" a data extract that exactly matches the one used in this study.
 
-You'll be told that this project already has a lockfile. Select option `1: Restore the project from the lockfile`. 
+4. If you don't already have one, set up a free account on [IPUMS USA](https://uma.pop.umn.edu/usa/user/new).
 
-# `data` directory
-If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:
+5. Navigate to the [IPUMS USA login page](https://uma.pop.umn.edu/usa/authentication/login). Log into the portal.
+
+6. `data` directory: If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:
+
+6. Request a data extract with the following information:
+
+    **Sample** (count: 2)
+    
+    -   2000 5%
+    -   2019 ACS 5yr
+    
+    **Variables** (count: 110)
+    
+    - [YEAR](https://usa.ipums.org/usa-action/variables/YEAR)
+    - [MULTYEAR](https://usa.ipums.org/usa-action/variables/MULTYEAR)
+    - TODO: fill out the rest
+    
+### 📊 Part C: Run the analysis scripts
+
+
 
 ## API Setup: Census Data Access
 
@@ -76,20 +110,6 @@ Some scripts in this repository (e.g., for the McClure-Schwartz replication) use
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
 
-## Download from IPUMS USA
-
-1. Navigate to the [IPUMS USA login page](https://uma.pop.umn.edu/usa/authentication/login). If you do not already have user credentials, you will need to set them up before proceeding. Log into the portal.
-
-2. Request a data extract with the following information:
-
-  **Sample** (count: 2)
-  -   2000 5%
-  -   2019 ACS 5yr
-  
-  **Variables** (count: 110)
-  - [YEAR](https://usa.ipums.org/usa-action/variables/YEAR)
-  - [MULTYEAR](https://usa.ipums.org/usa-action/variables/MULTYEAR)
-  - TODO: fill out the rest
 
 # Running the code
 

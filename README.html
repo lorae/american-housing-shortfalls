@@ -421,9 +421,9 @@ can do this manually or use the following terminal commands:</p>
 <pre class="bash"><code>cp example.Renviron .Renviron</code></pre>
 <p>Windows:</p>
 <pre class="cmd"><code>copy example.Renviron .Renviron</code></pre></li>
-<li><p><strong>If you don’t already have one, set up a free account on
-<a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a></strong>.
-Use the new account to login to the <a href="https://account.ipums.org/api_keys">IPUMS API Key</a> webpage.
+<li><p><strong>Set up your IPUMS USA API key</strong>: If you don’t
+already have one, set up a free account on <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a>. Use the new
+account to login to the <a href="https://account.ipums.org/api_keys">IPUMS API Key</a> webpage.
 Copy your API key from this webpage.</p></li>
 <li><p><strong>Open <code>.Renviron</code></strong> and replace
 <code>your_ipums_api_key</code> with your actual key. Do not include
@@ -434,72 +434,10 @@ from the codebase.</p>
 <code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
 — but <code>example.Renviron</code> is tracked, so do not put your
 actual API key in the example file.</p></li>
-<li><p><strong>Copy the file</strong> <code>sample.Renviron</code> to a
-new file named <code>.Renviron</code> in the project root directory.</p>
-<p>MacOS/Linux:</p>
-<pre class="bash"><code>cp sample.Renviron .Renviron</code></pre>
-<p>Windows:</p>
-<pre class="cmd"><code>copy sample.Renviron .Renviron</code></pre></li>
-<li><p><strong>Open <code>.Renviron</code></strong> and replace
-<code>your_api_key</code> with your actual key. Do not include quotation
-marks. R will automatically load <code>.Renviron</code> when you start a
-new session. This keeps your API key private and separate from the
-codebase.</p>
-<p>🛑 Important: <code>.Renviron</code> is listed in
-<code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
-— but <code>sample.Renviron</code> is tracked, so do not put your actual
-API key in the sample file.</p></li>
-<li><p>Navigate to the <a href="https://uma.pop.umn.edu/usa/authentication/login">IPUMS USA login
-page</a>. Log into the portal.</p></li>
-<li><p><code>data</code> directory: If you have cloned this repository
-from GitHub, it will include a <code>data</code> directory which
-contains an empty <code>ipums_microdata</code> directory. Because of the
-large file size, this data is not stored on GitHub. Either request the
-file directly from the authors or follow these instructions to download
-the data from IPUMS directly:</p></li>
-<li><p>Request a data extract with the following information:</p>
-<p><strong>Sample</strong> (count: 2)</p>
-<ul>
-<li>2000 5%</li>
-<li>2019 ACS 5yr</li>
-</ul>
-<p><strong>Variables</strong> (count: 110)</p>
-<ul>
-<li><a href="https://usa.ipums.org/usa-action/variables/YEAR">YEAR</a></li>
-<li><a href="https://usa.ipums.org/usa-action/variables/MULTYEAR">MULTYEAR</a></li>
-<li>TODO: fill out the rest</li>
-</ul></li>
 </ol>
 </div>
 <div id="part-c-run-the-analysis-scripts" class="section level3">
 <h3>📊 Part C: Run the analysis scripts</h3>
-</div>
-<div id="api-setup-census-data-access" class="section level2">
-<h2>API Setup: Census Data Access</h2>
-<p>Some scripts in this repository (e.g., for the McClure-Schwartz
-replication) use the <code>tidycensus</code> package, which requires a
-Census API key. To set this up:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Request a free Census API key</strong><br />
-<a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a></p></li>
-<li><p><strong>Copy the file</strong> <code>sample.Renviron</code> to a
-new file named <code>.Renviron</code> in the project root directory.</p>
-<p>On macOS/Linux: <code>bash  cp sample.Renviron .Renviron</code></p>
-<p>Windows: <code>cmd  copy sample.Renviron .Renviron</code></p></li>
-<li><p><strong>Open <code>.Renviron</code></strong> and replace
-<code>your_api_key</code> with your actual key. Do not include quotation
-marks. R will automatically load <code>.Renviron</code> when you start a
-new session. This keeps your API key private and separate from the
-codebase.</p>
-<p>🛑 Important: <code>.Renviron</code> is listed in
-<code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
-— but <code>sample.Renviron</code> is tracked, so do not put your actual
-API key in the sample file.</p></li>
-</ol>
-</div>
-</div>
-<div id="running-the-code" class="section level1">
-<h1>Running the code</h1>
 <p>The code for this project is stored in the <code>src</code> folder.
 Code is divided into two main directories: <code>scripts</code> and
 <code>utils</code>. The <code>scripts</code> directory contains
@@ -514,8 +452,8 @@ which walk the researcher through data ingestion, throughput generation,
 and generation of output and figures.</p>
 <p><strong>The scripts should be run in the following order</strong>: 1.
 <code>import-ipums.R</code> 2. <code>process-ipums.R</code></p>
-<div id="import-ipums.r" class="section level2">
-<h2><code>import-ipums.R</code></h2>
+<div id="import-ipums.r" class="section level4">
+<h4><code>import-ipums.R</code></h4>
 <p>This script serves two purposes: 1. Read in the IPUMS USA microdata
 from its raw, brittle format in the source <code>.dat.gz</code> file
 into a DuckDB database, which can be more agilely manipulated and
@@ -542,8 +480,8 @@ in the remainder of the project. The other outputs in the
 re-attaching labels after KOB regressions are done, and more. TODO:
 specify more here.</p>
 </div>
-<div id="process-ipums.r" class="section level2">
-<h2><code>process-ipums.R</code></h2>
+<div id="process-ipums.r" class="section level4">
+<h4><code>process-ipums.R</code></h4>
 <p>The purpose of this script is to attach essential accessory columns
 to the raw microdata for downstream analysis. It reads from the
 <code>ipums</code> table in <code>data/db/ipums-raw.duckdb</code> and
@@ -552,7 +490,8 @@ writes processed data to the <code>ipums_bucketed</code> table in
 bucketed from their raw format (e.g. <code>INCTOT</code>) to a
 processed, discrete format like <code>INCTOT_cpiu_2010_bucket</code>.
 Here is an up-to-date list on which variables are created, and how, as
-of June 2025:</p>
+of June 2025: TODO: Create a separate codebook page and add this
+there.</p>
 <ul>
 <li><code>pers_id</code>: generated by concatenating the
 <code>SAMPLE</code>, <code>SERIAL</code>, and <code>PERNUM</code>
@@ -625,6 +564,33 @@ variable</a></li>
 <code>ipums_processed</code> table</p>
 <p>Outputs are used downstream for all subsequent analysis.</p>
 </div>
+</div>
+<div id="api-setup-census-data-access" class="section level2">
+<h2>API Setup: Census Data Access</h2>
+<p>Some scripts in this repository (e.g., for the McClure-Schwartz
+replication) use the <code>tidycensus</code> package, which requires a
+Census API key. To set this up:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Request a free Census API key</strong><br />
+<a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a></p></li>
+<li><p><strong>Copy the file</strong> <code>sample.Renviron</code> to a
+new file named <code>.Renviron</code> in the project root directory.</p>
+<p>On macOS/Linux: <code>bash  cp sample.Renviron .Renviron</code></p>
+<p>Windows: <code>cmd  copy sample.Renviron .Renviron</code></p></li>
+<li><p><strong>Open <code>.Renviron</code></strong> and replace
+<code>your_api_key</code> with your actual key. Do not include quotation
+marks. R will automatically load <code>.Renviron</code> when you start a
+new session. This keeps your API key private and separate from the
+codebase.</p>
+<p>🛑 Important: <code>.Renviron</code> is listed in
+<code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
+— but <code>sample.Renviron</code> is tracked, so do not put your actual
+API key in the sample file.</p></li>
+</ol>
+</div>
+</div>
+<div id="running-the-code" class="section level1">
+<h1>Running the code</h1>
 </div>
 <div id="running-slurm-jobs-with-environment-variables" class="section level1">
 <h1>Running SLURM jobs with environment variables</h1>

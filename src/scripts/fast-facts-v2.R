@@ -29,14 +29,14 @@ ipums_db <- tbl(con, "ipums_processed")
 
 # ----- Step 3: Fast facts! ----- #
 
-##############################################
+################################################################################
 # Fast fact: percent of the population living in institutions in 2000 and 2019
 # Page X
 # "We exclude individuals living in institutional settings, such as prisons
 # and nursing homes; this leads us to remove 2.8% of the population in 2000 and 
 # 2.5% in the 2015-2019 data"
-##############################################
-## 2000 GROUP QUARTERS STATUS ##
+################################################################################
+# 2000 GROUP QUARTERS STATUS #
 # Summarize GQ status for 2000 survey
 gq_2000 <- weighted_mean(
   data = ipums_db |> filter(YEAR == 2000),
@@ -62,7 +62,7 @@ gq_2000
 in_gq_2000
 out_gq_2000
 
-## 2019 GROUP QUARTERS STATUS ##
+# 2019 GROUP QUARTERS STATUS #
 # Summarize GQ status for 2019 survey
 gq_2019 <- weighted_mean(
   data = ipums_db |> filter(YEAR == 2019),
@@ -87,6 +87,19 @@ out_gq_2019 <- gq_2019 |>
 gq_2019
 in_gq_2019
 out_gq_2019
+
+################################################################################
+# FAST FACT: Aggregate household size in 2000 and 2019
+# Page X
+# "In 2000, Americans lived, on average, in households of 3.467 people; by 2019 
+# that had fallen to 3.374 people, a drop of 2.7%."
+################################################################################
+hhsize_agg <- tabulate_summary_2year(data = ipums_db, years = c(2000,2019), group_by = c())
+
+hhsize_agg |> pull(hhsize_2000) # 2000 household size
+hhsize_agg |> pull(hhsize_2019) # 2019 household size
+hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
+
 
 ##############################################
 # FAST FACT: Household size by age in 2000 and 2019

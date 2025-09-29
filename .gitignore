@@ -29,8 +29,10 @@ hidden-jobs/
 .Rprofile
 renv/
 
-# Large data files
+# Large data files, EXCEPT the helpers/ subdirectory and its contents:
 data/
+!data/helpers/
+!data/helpers/**
 
 # History files
 .Rhistory

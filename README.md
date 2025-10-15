@@ -14,14 +14,14 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     ```
 
     ```bash
-    git clone https://github.com/lorae/households-over-the-years households-over-the-years
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
     git clone https://github.com/lorae/demographr demographr
     ```
 
 2. Enter the main project
 
     ```bash
-    cd households-over-the-years
+    cd american-housing-shortfalls
     ```
 
 3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys)
@@ -34,7 +34,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
 
 4. Restore dependencies and run the analysis
 
-    Open `households-over-the-years.Rproj` in your preferred IDE, then in the R console:
+    Open `american-housing-shortfalls.Rproj` in your preferred IDE, then in the R console:
     
     ```r
     renv::restore()

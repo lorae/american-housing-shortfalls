@@ -1,4 +1,4 @@
-# src/figures/fine-grained-fig04-diff-state-map.R
+# src/figures/fine-grained-fig05-diff-state-map.R
 #
 # This script produces choropleth maps of differences between actual and expected
 # household size and headship rates by state in 2019
@@ -28,7 +28,6 @@ options(scipen = 999)
 devtools::load_all("../dataduck")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
 load("data/helpers/cpuma-state-cross.rda") # Crosswalks CPUMA0010 to state
-load("data/helpers/state-pop-growth.rda") # May be deprecated
 
 # ----- Step 2: Import data ----- #
 state_sf <- readRDS("throughput/state_shapefiles.rds") # One shapefile row per state
@@ -37,11 +36,11 @@ headship_state_summary <- readRDS("throughput/fine-grained-headship-diff-state.r
 cf_summaries <- readRDS("throughput/fine-grained-cf-summaries.rds")
 
 # ----- Step 4: Map ----- #
-# --- Fig04a: hhsize diff by state ----
+# --- fig05a: hhsize diff by state ----
 state_sf_hhsize <- state_sf |>
   left_join(hhsize_state_summary, by = "State")
 
-fig04a <- ggplot(state_sf_hhsize) + 
+fig05a <- ggplot(state_sf_hhsize) + 
   geom_sf(aes(geometry = geometry, fill = diff), color = "black", size = 0.5) +
   scale_fill_gradient2(
     name = "Unexplained \nDifference, \nPersons per \nHousehold",
@@ -49,14 +48,14 @@ fig04a <- ggplot(state_sf_hhsize) +
     breaks = seq(from = -0.5, to = 0.2, by = 0.05)
   ) +
   theme_void()
-fig04a
+fig05a
 
-# --- Fig04b: headship diff by state --- 
+# --- fig05b: headship diff by state --- 
 state_sf_headship <- state_sf |>
   left_join(headship_state_summary, by = "State")
 
 # Choropleth map (color version)
-fig04b <- ggplot(state_sf_headship |> filter(State != "District of Columbia")) + 
+fig05b <- ggplot(state_sf_headship |> filter(State != "District of Columbia")) + 
   geom_sf(aes(geometry = geometry, fill = diff), color = "black", size = 0.5) +
   scale_fill_gradient2(
     name = "Unexplained \nDifference, \nHeadship \nRate",
@@ -64,9 +63,9 @@ fig04b <- ggplot(state_sf_headship |> filter(State != "District of Columbia")) +
     breaks = seq(from = -0.04, to = 0.1, by = 0.01)
   ) +
   theme_void()
-fig04b
+fig05b
 
 # ----- Step 5: Save output ----- #
 # Figures
-ggsave("output/figures/fine-grained/fig04a-hhsize-diff-state-map.png", plot = fig04a, width = 6.5, height = 4, dpi = 300)
-ggsave("output/figures/fine-grained/fig04b-headship-diff-state-map.png", plot = fig04b, width = 6.5, height = 4, dpi = 300)
+ggsave("output/figures/fig05a-hhsize-diff-state-map.jpeg", plot = fig05a, width = 6.5, height = 4, dpi = 300)
+ggsave("output/figures/fig05b-headship-diff-state-map.jpeg", plot = fig05b, width = 6.5, height = 4, dpi = 300)

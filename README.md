@@ -1,97 +1,96 @@
-# American Housing Shortfalls
+# 🏡 American Housing Shortfalls: Replication Package
 
-This repository provides full replication code for analyzing the extent to which American household sizes have changed over time, and by sociodemographic dimension. Detailed instructions for running the code follow.
-
-TODO: consolidate the .env (SLURM setup) and .Rproject instructions into one config section of this document
+This repository contains the full replication code for *Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
+by Peter Hepburn and Lorae Stojanovic. We explain in detail how to replicate the analysis on your personal work environment.
 
 # Project setup
 
-To run this project, the user should have a working familiarity with R and git.
+To run this project, the user should have both R and git installed on their computer, along with a working familiarity with both softwares.
    
-### 1. Clone the repo to your local computer
+### 📦️ Part A: Clone the repo and configure the R project
 
-Open a terminal on your computer. Navigate to the directory you would like to be the parent directory of the repo, then clone the repo.
+These steps will allow you to install the code on your computer that runs this project and set up the environment so that it mimics the environment on which the code was developed.
 
-On Windows:
-```bash
-cd your\path\to\parent\directory
-```
-```bash
-git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
-```
+1. **Clone the repo**: Open a terminal on your computer. Navigate to the directory you would like to be the parent directory of the repo, then clone the repo.
 
-macOS/Linux:
-```cmd
-cd your/path/to/parent/directory
-```
-```cmd
-git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
-```
-
-### 2. Open R project
-
-Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (During development of this code, R Studio was used).
-
-### 3. Initialize R environment
-
-This step installs all the dependencies (packages) needed to make the code run on your computer. Depending on your installed packages, this setup step may take from a few minutes to over an hour to run.
-
-Make sure the `renv` package is already installed and attached. Run the following in your R console:
-```r
-install.packages("renv")
-```
-```r
-library("renv")
-```
-
-Then initialize the project:
-```r
-renv::init()
-```
-
-You'll be told that this project already has a lockfile. Select option `1: Restore the project from the lockfile`. 
-
-# `data` directory
-If you have cloned this repository from GitHub, it will include a `data` directory which contains an empty `ipums_microdata` directory. Because of the large file size, this data is not stored on GitHub. Either request the file directly from the authors or follow these instructions to download the data from IPUMS directly:
-
-## API Setup: Census Data Access
-
-Some scripts in this repository (e.g., for the McClure-Schwartz replication) use the `tidycensus` package, which requires a Census API key. To set this up:
-
-1. **Request a free Census API key**  
-   https://api.census.gov/data/key_signup.html
-
-2. **Copy the file** `sample.Renviron` to a new file named `.Renviron` in the project root directory.
-
-    On macOS/Linux:
-    ```bash
-    cp sample.Renviron .Renviron
+    MacOS/Linux:
+    
+    ```cmd
+    cd your/path/to/parent/directory
+    ```
+    ```cmd
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
     ```
     
     Windows:
-    ```cmd
-    copy sample.Renviron .Renviron
+    
+    ```bash
+    cd your\path\to\parent\directory
     ```
-3. **Open `.Renviron`** and replace `your_api_key` with your actual key.  Do not include quotation marks. R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate from the codebase.
+    ```bash
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
+    ```
 
-    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
+2. **Open the R project**: Navigate into the directory, now located at `your/path/to/parent/directory/american-housing-shortfalls`.
+Open `american-housing-shortfalls.Rproj` using your preferred IDE for R. (We use R Studio.)
 
-## Download from IPUMS USA
+    Every subsequent time you work with the project code, you should always open the `american-housing-shortfalls.Rproj` file
+    at the beginning of your work session. This will avoid common issues with broken file paths or an incorrect working directory.
 
-1. Navigate to the [IPUMS USA login page](https://uma.pop.umn.edu/usa/authentication/login). If you do not already have user credentials, you will need to set them up before proceeding. Log into the portal.
+3. **Initialize R environment**: Install all the dependencies (packages) needed to make the code run on your computer. 
+Depending on which packages you may have already installed on your computer, this setup step may take from a few minutes to over 
+an hour.
 
-2. Request a data extract with the following information:
+    First, ensure you have the package manager, `renv`, installed. Run the following in your R console:
+    
+    ```r
+    install.packages("renv") # Safe to run, even if you're not sure if you already have renv
+    ```
+    ```r
+    library("renv")
+    ```
+    
+    Then initialize the project:
+    
+    ```r
+    renv::init()
+    ```
+    
+    At this point, a message will print into the console informing you that this project already has a lockfile. 
+    Select option `1: Restore the project from the lockfile`. 
 
-  **Sample** (count: 2)
-  -   2000 5%
-  -   2019 ACS 5yr
-  
-  **Variables** (count: 110)
-  - [YEAR](https://usa.ipums.org/usa-action/variables/YEAR)
-  - [MULTYEAR](https://usa.ipums.org/usa-action/variables/MULTYEAR)
-  - TODO: fill out the rest
+### 📥️ Part B: Download raw data from IPUMS USA
 
-# Running the code
+The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
+the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
+we explain this process and how to "order" a data extract that exactly matches the one used in this study.
+
+4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
+You can do this manually or use the following terminal commands:
+
+    MacOS/Linux:
+    
+    ```bash
+    cp example.Renviron .Renviron
+    ```
+    
+    Windows:
+    
+    ```cmd
+    copy example.Renviron .Renviron
+    ```
+    
+5. **Set up your IPUMS USA API key**: If you don't already have one, set up a free account on 
+[IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
+[IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
+
+6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
+R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
+from the codebase.
+
+    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
+
+### 📊 Part C: Run the analysis scripts
 
 The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` foler contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
 
@@ -101,7 +100,7 @@ We'll now explain each of the `scripts` files in turn, which walk the researcher
 1. `import-ipums.R`
 2. `process-ipums.R`
 
-## `import-ipums.R`
+#### `import-ipums.R`
 
 This script serves two purposes:
 1. Read in the IPUMS USA microdata from its raw, brittle format in the source `.dat.gz` file into a DuckDB database, which can be more agilely manipulated and analyzed.
@@ -122,8 +121,9 @@ This script leverages the `ipumsr` package for this purpose. Due to the relative
 The `db/ipums.duckdb` file contains the primary data used in the remainder of the project. The other outputs in the `docs` directory are used downstream for graph labelling, re-attaching labels after KOB regressions are done, and more. 
 TODO: specify more here.
 
-## `process-ipums.R`
+#### `process-ipums.R`
 The purpose of this script is to attach essential accessory columns to the raw microdata for downstream analysis. It reads from the `ipums` table in `data/db/ipums-raw.duckdb` and writes processed data to the `ipums_bucketed` table in `data/db/ipums-processed.duckdb`. For example, data are bucketed from their raw format (e.g. `INCTOT`) to a processed, discrete format like `INCTOT_cpiu_2010_bucket`. Here is an up-to-date list on which variables are created, and how, as of June 2025:
+TODO: Create a separate codebook page and add this there.
 
 - `pers_id`: generated by concatenating the `SAMPLE`, `SERIAL`, and `PERNUM` columns, separating using an underscore. This is the IPUMS-recommended way to [uniquely identify each person](https://usa.ipums.org/usa-action/variables/PERNUM#description_section).
 - `hh_id`: generated by contatenating the `SAMPLE` and `SERIAL` columns, separating using an underscore. This is the IPUMS-recommended way to [uniquely identify each household](https://usa.ipums.org/usa-action/variables/SERIAL#description_section).
@@ -152,6 +152,35 @@ The purpose of this script is to attach essential accessory columns to the raw m
 - `data/db/ipums.duckdb`: `ipums_processed` table
 
 Outputs are used downstream for all subsequent analysis.
+
+
+
+## API Setup: Census Data Access
+
+Some scripts in this repository (e.g., for the McClure-Schwartz replication) use the `tidycensus` package, which requires a Census API key. To set this up:
+
+1. **Request a free Census API key**  
+   https://api.census.gov/data/key_signup.html
+
+2. **Copy the file** `sample.Renviron` to a new file named `.Renviron` in the project root directory.
+
+    On macOS/Linux:
+    ```bash
+    cp sample.Renviron .Renviron
+    ```
+    
+    Windows:
+    ```cmd
+    copy sample.Renviron .Renviron
+    ```
+3. **Open `.Renviron`** and replace `your_api_key` with your actual key.  Do not include quotation marks. R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate from the codebase.
+
+    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
+
+
+# Running the code
+
+
 
 # Running SLURM jobs with environment variables
 To keep sensitive or system-specific values (like an email address or scratch directory path) outside of version control, we use a `.env` file to define environment variables, and reference them in the job scripts.

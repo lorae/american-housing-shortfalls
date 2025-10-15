@@ -58,46 +58,7 @@ get_arrow_data <- function(data, state_order) {
   return(arrow_data)
 }
 
-make_dotplot <- function(
-    dotplot_data, 
-    x_title, 
-    limits = c(2.5, 4.5),
-    show_legend = TRUE,
-    show_y_labels = TRUE
-){
-  ggplot() +
-    # Grey background bands
-    geom_rect(data = dotplot_data$band_data,
-              aes(ymin = ymin, ymax = ymax),
-              xmin = -Inf, xmax = Inf, fill = "grey95") +
-    
-    # Line segments connecting dots
-    geom_line(data = dotplot_data$data_long, aes(x = observed, y = State, group = State), color = "gray60") +
-    
-    # Red & blue dots
-    geom_point(
-      data = dotplot_data$data_long, 
-      aes(x = observed, y = State, color = year), 
-      size = 2.0
-    ) +
-    
-    scale_color_manual(values = c("2000" = "skyblue", "2019" = "forestgreen")) +
-    scale_x_continuous(name = x_title, limits = limits, expand = c(0, 0)) +
-    
-    theme_minimal(base_size = 12) +
-    theme(
-      legend.title = element_blank(),
-      legend.position = if (show_legend) "right" else "none",
-      panel.grid.major.y = element_blank(),
-      panel.grid.minor = element_blank(),
-      axis.title.y = element_blank(),
-      axis.text.y = if (show_y_labels) element_text(size = 9) else element_blank(),
-      axis.text.x = element_text(size = 10),
-      plot.margin = margin(10, 20, 10, 10)
-    )
-}
-
-make_dotplot_new <- function(
+make_arrowplot <- function(
     dotplot_data, 
     x_title, 
     x_as_percent = FALSE,
@@ -174,35 +135,12 @@ make_dotplot_new <- function(
 }
 
 # ----- Step 2: Make plots -----
-
-# ---- FIG02 OLD
 # Come up with order of states in chart. We use the order of the hhsizes
 # and we'll make the headship dotplot match this order
 state_order <- headship_state |>
   arrange(observed_2000) |>
   pull(State) 
 
-
-p <- make_dotplot(
-  dotplot_data = prep_dotplot_data(hhsize_state, state_order = state_order), 
-  x_title = "Average Household Size", 
-  limits = c(2.5, 4.5),
-  show_legend = FALSE
-)
-
-h <- make_dotplot(
-  dotplot_data = prep_dotplot_data(headship_state, state_order = state_order), 
-  x_title = "Average Headship Rate", 
-  limits = c(0.3, 0.5),
-  show_legend = FALSE,
-  show_y_labels = FALSE
-)
-
-fig02 <- (p + h) + 
-  plot_layout(guides = "collect") & 
-  theme(legend.position = "bottom")
-
-# --- FIG02 NEW
 # Create arrow data
 arrow_hhsize <- get_arrow_data(hhsize_state, state_order)
 arrow_headship <- get_arrow_data(headship_state, state_order)
@@ -244,14 +182,14 @@ arrow_legend_plot <- ggplot(legend_arrow_df) +
   theme(legend.position = "none") +
   coord_cartesian(xlim = c(0.7, 2.4))
 
-p_new <- make_dotplot_new(
+p <- make_arrowplot(
   dotplot_data = prep_dotplot_data(hhsize_state, state_order),
   x_title = "Average Household Size",
   limits = c(2.5, 4.5),
   arrow_data = arrow_hhsize,
   show_legend = FALSE
 )
-h_new <- make_dotplot_new(
+h <- make_arrowplot(
   dotplot_data = prep_dotplot_data(headship_state, state_order), 
   x_title = "Average Headship Rate", 
   x_as_percent = TRUE,
@@ -261,13 +199,14 @@ h_new <- make_dotplot_new(
   show_y_labels = FALSE
 )
 
-fig02_new <- (p_new + h_new) / arrow_legend_plot  +
+fig03 <- (p + h) / arrow_legend_plot  +
   plot_layout(heights = c(1, 0.1))
-fig02_new
+
+fig03
 
 # ----- Step 3: Save plots ----- #
 ggsave(
-  "output/figures/fine-grained/fig02-connected-dots.png", 
-  plot = fig02, 
-  width = 3000, height = 3000, units = "px", dpi = 300
+  "output/figures/fig03-state-headship-arrows.jpeg", 
+  plot = fig03, 
+  width = 4000, height = 4000, units = "px", dpi = 400
 )

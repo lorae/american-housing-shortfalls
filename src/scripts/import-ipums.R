@@ -32,14 +32,14 @@ if (!file.exists(".Renviron")) {
 
 # Read API key from project-local .Renviron
 readRenviron(".Renviron") # Force a re-read each run
-api_key <- Sys.getenv("IPUMS_API_KEY")
+ipums_api_key <- Sys.getenv("IPUMS_API_KEY")
 
-if (api_key == "" || api_key == "your_ipums_api_key") {
+if (ipums_api_key == "" || ipums_api_key == "your_ipums_api_key") {
   stop(".Renviron file exists, but IPUMS API key has not been added. Please refer to Part B of the README file for configuration instructions.")
 }
 
-print(paste0("IPUMS API key: ", api_key))
-set_ipums_api_key(api_key)
+print(paste0("IPUMS API key: ", ipums_api_key))
+set_ipums_api_key(ipums_api_key)
 
 # ----- Step 1: Define, submit, and wait for data extract ----- #
 
@@ -79,7 +79,7 @@ download_extract(
   submitted,
   download_dir = "data/ipums-microdata",
   overwrite = TRUE,
-  api_key = api_key
+  api_key = ipums_api_key
 )
 
 extract_num <- sprintf("%05d", submitted$number)

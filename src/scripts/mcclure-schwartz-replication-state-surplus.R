@@ -1,4 +1,4 @@
-# mcclure-schwartz/tab1-replication.R
+# src/scripts/mcclure-schwartz-replication-state-surplus.R
 # 
 # The purpose of this script is to replicate the McClure-Schwartz housing shortage
 # analysis at a national level in Figure 1 of their paper.

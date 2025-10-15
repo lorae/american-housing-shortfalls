@@ -41,11 +41,10 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     source("run-all.R")
     ```
     
-# Project setup
+## 📎 Detailed Start
+Detailed instructions for how to fully install and run this project code on your computer.
 
-To run this project, the user should have both R and git installed on their computer, along with a working familiarity with both softwares.
-   
-### 📦️ Part A: Clone the repo and configure the R project
+###  Part A: Clone the repo and configure the R project
 
 These steps will allow you to install the code on your computer that runs this project and set up the environment so that it mimics the environment on which the code was developed.
 
@@ -88,16 +87,13 @@ an hour.
     library("renv")
     ```
     
-    Then initialize the project:
+    Then load all the packages needed for the project:
     
     ```r
-    renv::init()
+    renv::restore()
     ```
-    
-    At this point, a message will print into the console informing you that this project already has a lockfile. 
-    Select option `1: Restore the project from the lockfile`. 
 
-### 📥️ Part B: Download raw data from IPUMS USA
+### Part B: Download raw data from IPUMS USA
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
 the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
@@ -128,7 +124,8 @@ from the codebase.
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
 
-### 📊 Part C: Run the analysis scripts
+
+### Part C: Run the analysis scripts
 
 The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` foler contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
 

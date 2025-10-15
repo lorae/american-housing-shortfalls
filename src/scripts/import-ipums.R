@@ -96,29 +96,3 @@ con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
 dbWriteTable(con, "ipums", ipums_tb, overwrite = TRUE)
 DBI::dbDisconnect(con)
 
-# ----- Step 3: Save helpful reference documentation ----- #
-
-# Interactive HTML document outlining the variables from the 
-# data pull
-# Temporarily disabled because I don't want to clutter the repo. If it causes
-# downstream issues, re-enable it below.
-# ipums_view(ddi, out_file = "docs/ipums-data-dictionary.html", launch = FALSE)
-
-# A list which provides the value labels for every variable
-# in the pull. The tibble of value labels for a variable
-# VARNAME, for example, can be accessed through  the following
-# code:
-# `my_tibble <- value_labels_list$VARNAME`
-
-value_labels_list <- lapply(seq_len(nrow(ddi$var_info)), function(i) {
-  val_labels <- ddi$var_info$val_labels[[i]]
-  if (nrow(val_labels) > 0) {
-    return(val_labels)
-  } else {
-    return(NULL)
-  }
-})
-
-names(value_labels_list) <- ddi$var_info$var_name
-
-save(value_labels_list, file = "docs/ipums_value_labels.RData")

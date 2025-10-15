@@ -90,8 +90,11 @@ an hour.
     Then load all the packages needed for the project:
     
     ```r
+    renv::activate()
     renv::restore()
     ```
+    
+    When it asks if you want to proceed, type `y` for "yes".
 
 ### Part B: Download raw data from IPUMS USA
 

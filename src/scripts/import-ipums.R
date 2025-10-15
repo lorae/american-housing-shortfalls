@@ -18,13 +18,13 @@
 # ----- Step 0: Load packages ----- #
 library("dplyr")
 library("duckdb")
-library(ipumsr)
-library(glue)
+library("ipumsr")
+library("glue")
 
 # These packages are implicitly needed; loading them here purely for renv visibility
-library("htmltools")
-library("shiny")
-library("DT")
+# library("htmltools")
+# library("shiny")
+# library("DT")
 
 if (!file.exists(".Renviron")) {
   stop(".Renviron file needed for this code to run. Please refer to Part B of the README file for configuration instructions.")

@@ -95,6 +95,7 @@ an hour.
     ```
     
     When it asks if you want to proceed, type `y` for "yes".
+    
 
 ### Part B: Download raw data from IPUMS USA
 

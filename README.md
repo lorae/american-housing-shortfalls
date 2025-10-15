@@ -1,8 +1,46 @@
 # 🏡 American Housing Shortfalls: Replication Package
 
 This repository contains the full replication code for *Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
-by Peter Hepburn and Lorae Stojanovic. We explain in detail how to replicate the analysis on your personal work environment.
+by Peter Hepburn and Lorae Stojanovic (forthcoming). We explain in detail how to replicate the analysis on your personal work environment.
 
+## ⚡ Quick Start
+For experienced users who just want to get the project running right away. If you
+have trouble following these steps, please follow the **Detailed Start** guide below.
+
+1. Navigate to the directory where you want the project to be saved and clone both required repos side by side
+
+    ```bash
+    cd your/path/to/parent/directory
+    ```
+
+    ```bash
+    git clone https://github.com/lorae/households-over-the-years households-over-the-years
+    git clone https://github.com/lorae/demographr demographr
+    ```
+
+2. Enter the main project
+
+    ```bash
+    cd households-over-the-years
+    ```
+
+3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys)
+
+    ```bash
+    cp example.Renviron .Renviron
+    # (Windows PowerShell: Copy-Item example.Renviron .Renviron)
+    # IMPORTANT: open .Renviron and replace "your_ipums_api_key" with your actual key
+    ```
+
+4. Restore dependencies and run the analysis
+
+    Open `households-over-the-years.Rproj` in your preferred IDE, then in the R console:
+    
+    ```r
+    renv::restore()
+    source("run-all.R")
+    ```
+    
 # Project setup
 
 To run this project, the user should have both R and git installed on their computer, along with a working familiarity with both softwares.

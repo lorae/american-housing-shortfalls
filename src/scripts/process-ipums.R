@@ -24,7 +24,7 @@ library("dbplyr")
 
 # ----- Step 1: Source helper functions ----- #
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 
 # ----- Step 2: Connect to the database ----- #
 

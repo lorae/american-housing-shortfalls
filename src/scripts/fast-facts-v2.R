@@ -1,5 +1,5 @@
 # The purpose of this script is to provide replicable code which backs the 
-# in-line "fast facts" we calculate in the manuscript
+# in-line "fast facts" fast facts provided in the manuscript
 #
 # Last modified October 2025
 #
@@ -79,7 +79,7 @@ hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Household size by age in 2000 and 2019
-# Page X
+# Page 6
 # "Average household size is largest at youngest ages and changed relatively little
 # over time for people under age 20. People live, on average, in slightly smaller
 # households throughout their 20s, then see an increase in household size in their 
@@ -111,6 +111,18 @@ headship_agg <- crosstab_percent(
 headship_agg |> filter(YEAR == 2000) |> pull(percent) # 2000 headship rate
 headship_agg |> filter(YEAR == 2019) |> pull(percent) # 2019 headship rate
 
+#-------------------------------------------------------------------------------
+# FAST FACT: Headship rates in 2000 and 2019 by age
+# Page 6
+# "Headship rates were lower in 2019 than they were in 2000 at all ages. This effect, 
+# though, is particularly pronounced in early and late adulthood. For example, only 
+# 20% of people aged 20–24 were household heads in 2019, down from 28% at the 
+# turn of the millennium. For people between the ages of 30 and 74, reductions in 
+# headship rates over time were relatively small (3 percentage points or less), but these 
+# drops were larger for individuals aged 75 and above (at least 6 percentage points lower)."
+#-------------------------------------------------------------------------------
+
+headship_age <- read.csv("output/figure-data/accessory-fig06-hhsize-age-2per-line.csv")
 
 
 # what is this? vvv

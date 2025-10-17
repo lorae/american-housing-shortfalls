@@ -140,6 +140,44 @@ headship_age |> filter(subgroup >= "30-34" & subgroup < "75-79")
 headship_age |> filter(subgroup >= "75-79")
 
 
+#-------------------------------------------------------------------------------
+# FAST FACT: Average household size by state
+# Page 7
+# "Average household size (left panel of Figure 3) in 2000 varied from 3.075 people 
+# in Maine to 4.161 people in Utah. Across the 50 states and the District of Columbia 
+# (DC), average household size fell between 2000 and 2019 in all but four states 
+# (Oklahoma, Alaska, Kentucky, and Tennessee). In 18 states and DC, the drop was larger 
+# than the national average (a reduction of 0.093 people per household). Louisiana, 
+# DC, New Mexico, California, and Illinois all saw drops in average household size of 
+# more than 0.2 people."
+#-------------------------------------------------------------------------------
+hhsize_state <- read.csv("output/figure-data/fig03-household-size-state.csv")
+
+hhsize_state |> filter(household_size_2000 == min(household_size_2000)) # Maine: min avg hhsize 2000
+hhsize_state |> filter(household_size_2000 == max(household_size_2000)) # Utah: max avg hhsize 2000
+
+# Average household size fell between 2000 and 2019 in all but four states
+hhsize_state <- hhsize_state |> 
+  mutate(diff = household_size_2019 - household_size_2000) 
+hhsize_state |> filter(diff >= 0)
+
+# In 18 states and DC, the drop was larger than the national average (a reduction of
+# 0.093 people per household).
+natl_hhsize_diff <- (hhsize_agg |> pull(hhsize_2019)) - (hhsize_agg |> pull(hhsize_2000)) 
+natl_hhsize_diff
+
+hhsize_state |> filter(diff < natl_hhsize_diff )
+
+# Louisiana, DC, New Mexico, California, and Illinois all saw drops in average household size of 
+# more than 0.2 people.
+hhsize_state |> filter(diff < -0.2)
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Average headship rate by state
+# Page 7
+# "TK"
+#-------------------------------------------------------------------------------
+headship_state <- read.csv("output/figure-data/fig03-headship-rate-state.csv")
 
 
 # what is this? vvv

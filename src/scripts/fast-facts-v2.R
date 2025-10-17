@@ -1,6 +1,7 @@
 # The purpose of this script is to provide replicable code which backs the 
 # in-line "fast facts" we calculate in the manuscript
-# Last modified late September 2025.
+#
+# Last modified October 2025
 #
 # TODO: When manuscript is released, add page numbers.
 # 
@@ -19,7 +20,7 @@ library("sf")
 
 # ----- Step 1: Source helper functions ----- #
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 source("src/utils/aggregation-tools.R") # tabulate_summary and tabulate_summary_2yr
 
 # ----- Step 2: Import and wrangle data ----- #
@@ -29,7 +30,7 @@ ipums_db <- tbl(con, "ipums_processed")
 
 #-------------------------------------------------------------------------------
 # FAST FACT: percent of the population living in institutions in 2000 and 2019
-# Page X
+# Page 3
 # "We exclude individuals living in institutional settings, such as prisons
 # and nursing homes; this leads us to remove 2.8% of the population in 2000 and 
 # 2.5% in the 2015-2019 data"
@@ -66,7 +67,7 @@ gq_2019 |>
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Aggregate household size in 2000 and 2019
-# Page X
+# Page 6
 # "In 2000, Americans lived, on average, in households of 3.467 people; by 2019 
 # that had fallen to 3.374 people, a drop of 2.7%."
 #-------------------------------------------------------------------------------
@@ -75,6 +76,23 @@ hhsize_agg <- tabulate_summary_2year(data = ipums_db, years = c(2000,2019), grou
 hhsize_agg |> pull(hhsize_2000) # 2000 household size
 hhsize_agg |> pull(hhsize_2019) # 2019 household size
 hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Aggregate headship rate in 2000 and 2019
+# Page 6
+# "Headship rates fell over the same period as well, from 38.58% to 38.15%."
+#-------------------------------------------------------------------------------
+
+headship_agg <- crosstab_percent(
+  data = ipums_db |> filter(GQ %in% c(0,1,2)),
+  wt_col = "PERWT",
+  group_by = c("YEAR", "PERNUM"),
+  percent_group_by = c("YEAR")
+) |>
+  filter(PERNUM == 1)
+
+headship_agg |> filter(YEAR == 2000) |> pull(percent) # 2000 headship rate
+headship_agg |> filter(YEAR == 2019) |> pull(percent) # 2019 headship rate
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Household size by age in 2000 and 2019

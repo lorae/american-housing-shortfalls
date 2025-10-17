@@ -218,8 +218,31 @@ ggplot(headship_state, aes(x = headship_rate_2000, y = diff)) +
   )
 
 #-------------------------------------------------------------------------------
-# FAST FACT: TODO
+# FAST FACT: Observed vs expected aggregate change
+# Page 8
+# "The actual drop in average household size (0.093 people) amounts to 73.9% of the 
+# expected decline based on changes in population structure."
+# "...Notably, in this case the observed change [in headship rate] (a decrease of 
+# 0.43 percentage points) is in the opposite direction as the counterfactual (an 
+# expected increase of 2.23 percentage points).
 #-------------------------------------------------------------------------------
+actual_cf <- read.csv("output/figure-data/fig04-observed-counterfactual-bars.csv")
+
+# "The actual drop in average household size (0.093 people) amounts to 73.9% of the 
+# expected decline based on changes in population structure."
+actual_hhsize_2000 <- actual_cf |> filter(var == "household_size") |> pull(observed_2000)
+expected_hhsize_2019 <- actual_cf |> filter(var == "household_size") |> pull(expected_2019)
+
+(natl_hhsize_diff) / (expected_hhsize_2019 - actual_hhsize_2000)
+
+# Observed change in headship rate is -0.43 pp
+actual_hr_2000 <- actual_cf |> filter(var == "headship_rate") |> pull(observed_2000)
+actual_hr_2019 <- actual_cf |> filter(var == "headship_rate") |> pull(observed_2019)
+actual_hr_2019 - actual_hr_2000
+
+# Counterfactual expected change in headship rate was +2.23 pp
+expected_hr_2019 <- actual_cf |> filter(var == "headship_rate") |> pull(expected_2019)
+expected_hr_2019 - actual_hr_2000
 
 
 # what is this? vvv

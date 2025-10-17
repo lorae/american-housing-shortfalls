@@ -175,9 +175,48 @@ hhsize_state |> filter(diff < -0.2)
 #-------------------------------------------------------------------------------
 # FAST FACT: Average headship rate by state
 # Page 7
-# "TK"
+# "In the right panel of Figure 3, we see similar variation in headship rates. In 2000, 
+# headship rates ran from a low of 32.00% in Utah to a high of 46.28% in DC. Headship 
+# rates fell over time in 25 states and DC, with the largest decline in Florida (40.71% 
+# in 2000 to 37.80% in 2019). Rates rose in the other 25 states, with the largest increases 
+# recorded in Maine, Michigan, Wisconsin, North Dakota, and Vermont."
 #-------------------------------------------------------------------------------
 headship_state <- read.csv("output/figure-data/fig03-headship-rate-state.csv")
+
+headship_state |> filter(headship_rate_2000 == min(headship_rate_2000)) # Utah: min avg HR 2000
+headship_state |> filter(headship_rate_2000 == max(headship_rate_2000)) # DC: max avg HR 2000
+
+# Headship rates fell over time in 25 states and DC
+headship_state <- headship_state |> 
+  mutate(diff = headship_rate_2019 - headship_rate_2000) 
+headship_state |> filter(diff <= 0)
+
+# ...with the largest decline in Florida (40.71% in 2000 to 37.80% in 2019)
+headship_state |> arrange(diff) |> slice_head(n = 1)
+
+# Rates rose in the other 25 states
+headship_state |> filter(diff > 0) 
+
+# ... with the largest increases recorded in Maine, Michigan, Wisconsin, North Dakota, 
+# and Vermont
+headship_state |> arrange(-diff) |> slice_head(n = 5)
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Average headship rate by state
+# Page 7
+# "There is no consistent pattern linking headship rates in 2000 to changes over 
+# the subsequent 20 years: rates rose and fell in states with high baseline rates 
+# as well as in states with low baseline rates."
+#-------------------------------------------------------------------------------
+
+# This graph should be sufficiently convincing of the point
+ggplot(headship_state, aes(x = headship_rate_2000, y = diff)) +
+  geom_point() +
+  labs(
+    x = "Headship rate, 2000",
+    y = "Change in headship rate, 2000–2019"
+  )
+
 
 
 # what is this? vvv

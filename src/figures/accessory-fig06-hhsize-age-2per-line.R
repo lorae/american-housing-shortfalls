@@ -27,8 +27,7 @@ source("src/utils/aggregation-tools.R") # tabulate_summary and tabulate_summary_
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
 ipums_db <- tbl(con, "ipums_processed")
 
-
-hhsize_age_agg <- tabulate_summary_2year(
+hhsize_age <- tabulate_summary_2year(
   data = ipums_db, 
   years = c(2000,2019), 
   group_by = "AGE_bucket",
@@ -45,7 +44,10 @@ hhsize_age_agg <- tabulate_summary_2year(
       )
     )
   ) |>
-  arrange(subgroup) |>
+  arrange(subgroup)
+
+# Make a *plotting copy* that drops the pctchg col
+hhsize_age_for_plot <- hhsize_age |>
   select(-hhsize_pctchg_2000_2019) |>
   pivot_longer(
     cols = starts_with("hhsize_"),
@@ -57,7 +59,8 @@ hhsize_age_agg <- tabulate_summary_2year(
     year == "hhsize_2019" ~ 2019
   ))
 
-fig06 <- ggplot(hhsize_age_agg, aes(x = subgroup, y = hhsize, group = year, color = factor(year))) +
+
+fig06 <- ggplot(hhsize_age_for_plot, aes(x = subgroup, y = hhsize, group = year, color = factor(year))) +
   geom_line(size = 1) +
   geom_point() +
   labs(
@@ -78,7 +81,7 @@ ggsave(
 )
 
 write_csv(
-  hhsize_age_agg,
+  hhsize_age,
   "output/figure-data/accessory-fig06-hhsize-age-2per-line.csv"
 )
 

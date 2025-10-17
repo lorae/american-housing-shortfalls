@@ -105,45 +105,10 @@ headship_agg |> filter(YEAR == 2019) |> pull(percent) # 2019 headship rate
 #-------------------------------------------------------------------------------
 
 # TODO
-hhsize_age_agg <- tabulate_summary_2year(
-  data = ipums_db, 
-  years = c(2000,2019), 
-  group_by = "AGE_bucket",
-  ) |>
-  mutate(
-    subgroup = factor(
-      subgroup,
-      levels = c(
-        "0-4", "5-9", "10-14", "15-19",
-        "20-24", "25-29", "30-34", "35-39",
-        "40-44", "45-49", "50-54", "55-59",
-        "60-64", "65-69", "70-74", "75-79",
-        "80-84", "85plus"
-      )
-    )
-  ) |>
-  arrange(subgroup) |>
-  select(-hhsize_pctchg_2000_2019) |>
-  pivot_longer(
-    cols = starts_with("hhsize_"),
-    names_to = "year",
-    values_to = "hhsize"
-  ) |>
-  mutate(year = case_when(
-    year == "hhsize_2000" ~ 2000,
-    year == "hhsize_2019" ~ 2019
-  ))
 
-ggplot(hhsize_age_agg, aes(x = subgroup, y = hhsize, group = year, color = factor(year))) +
-  geom_line(size = 1) +
-  geom_point() +
-  labs(
-    x = "Age group",
-    y = "Average household size",
-    color = "Year"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
 
 ## Table of household sizes in 2000 and 2019 by age group
 age_bucket_summary |> filter(RACE_ETH_bucket == "All")

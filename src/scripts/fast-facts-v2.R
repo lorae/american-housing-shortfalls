@@ -92,7 +92,8 @@ hhsize_age <- read.csv("output/figure-data/accessory-fig06-hhsize-age-2per-line.
 # household size changed relatively little for those under 20 (<1% from 2000 - 2019)
 hhsize_age |> filter(subgroup < "20-24")
 
-# Remainder of the fact is best checked by viewing accessory-fig06 in output/figures
+# Remainder of the fact is best checked by viewing the contours of the lines in
+# output/figures/accessory-fig06-hhsize-age-2per-line.jpeg
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Aggregate headship rate in 2000 and 2019
@@ -138,7 +139,6 @@ headship_age |> filter(subgroup >= "30-34" & subgroup < "75-79")
 # ..but these drops were lower for individuals aged 75 and above (at least 6 percentage
 # points lower).
 headship_age |> filter(subgroup >= "75-79")
-
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Average household size by state
@@ -202,7 +202,7 @@ headship_state |> filter(diff > 0)
 headship_state |> arrange(-diff) |> slice_head(n = 5)
 
 #-------------------------------------------------------------------------------
-# FAST FACT: Average headship rate by state
+# FAST FACT: Headship vs. change in headship
 # Page 7
 # "There is no consistent pattern linking headship rates in 2000 to changes over 
 # the subsequent 20 years: rates rose and fell in states with high baseline rates 
@@ -217,6 +217,9 @@ ggplot(headship_state, aes(x = headship_rate_2000, y = diff)) +
     y = "Change in headship rate, 2000–2019"
   )
 
+#-------------------------------------------------------------------------------
+# FAST FACT: TODO
+#-------------------------------------------------------------------------------
 
 
 # what is this? vvv

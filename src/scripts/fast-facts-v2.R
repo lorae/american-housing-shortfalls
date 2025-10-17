@@ -122,7 +122,24 @@ headship_agg |> filter(YEAR == 2019) |> pull(percent) # 2019 headship rate
 # drops were larger for individuals aged 75 and above (at least 6 percentage points lower)."
 #-------------------------------------------------------------------------------
 
-headship_age <- read.csv("output/figure-data/accessory-fig06-hhsize-age-2per-line.csv")
+headship_age <- read.csv("output/figure-data/fig02-headship-age-year-bars.csv")
+
+# "Headship rates were lower in 2019 than they were in 2000 at all ages"
+headship_age <- headship_age |>
+  mutate(
+    diff = headship_rate_2019 - headship_rate_2000
+  )
+headship_age
+
+# For people between the ages of 30 and 74, reductions in headship rates over time 
+# were relatively small (3 percentage points or less)
+headship_age |> filter(subgroup >= "30-34" & subgroup < "75-79")
+
+# ..but these drops were lower for individuals aged 75 and above (at least 6 percentage
+# points lower).
+headship_age |> filter(subgroup >= "75-79")
+
+
 
 
 # what is this? vvv

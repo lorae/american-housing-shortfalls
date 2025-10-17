@@ -78,6 +78,23 @@ hhsize_agg |> pull(hhsize_2019) # 2019 household size
 hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
 
 #-------------------------------------------------------------------------------
+# FAST FACT: Household size by age in 2000 and 2019
+# Page X
+# "Average household size is largest at youngest ages and changed relatively little
+# over time for people under age 20. People live, on average, in slightly smaller
+# households throughout their 20s, then see an increase in household size in their 
+# 30s. The size of a household that the average American lives in declines 
+# monotonically from age 40 onwards."
+#-------------------------------------------------------------------------------
+
+hhsize_age <- read.csv("output/figure-data/accessory-fig06-hhsize-age-2per-line.csv")
+
+# household size changed relatively little for those under 20 (<1% from 2000 - 2019)
+hhsize_age |> filter(subgroup < "20-24")
+
+# Remainder of the fact is best checked by viewing accessory-fig06 in output/figures
+
+#-------------------------------------------------------------------------------
 # FAST FACT: Aggregate headship rate in 2000 and 2019
 # Page 6
 # "Headship rates fell over the same period as well, from 38.58% to 38.15%."
@@ -94,20 +111,9 @@ headship_agg <- crosstab_percent(
 headship_agg |> filter(YEAR == 2000) |> pull(percent) # 2000 headship rate
 headship_agg |> filter(YEAR == 2019) |> pull(percent) # 2019 headship rate
 
-#-------------------------------------------------------------------------------
-# FAST FACT: Household size by age in 2000 and 2019
-# Page X
-# "Average household size is largest at youngest ages and changed relatively little
-# over time for people under age 20. People live, on average, in slightly smaller
-# households throughout their 20s, then see an increase in household size in their 
-# 30s. The size of a household that the average American lives in declines 
-# monotonically from age 40 onwards."
-#-------------------------------------------------------------------------------
-
-# TODO
 
 
-
+# what is this? vvv
 
 
 ## Table of household sizes in 2000 and 2019 by age group

@@ -224,7 +224,7 @@ ggplot(headship_state, aes(x = headship_rate_2000, y = diff)) +
 # expected decline based on changes in population structure."
 # "...Notably, in this case the observed change [in headship rate] (a decrease of 
 # 0.43 percentage points) is in the opposite direction as the counterfactual (an 
-# expected increase of 2.23 percentage points).
+# expected increase of 2.23 percentage points)."
 #-------------------------------------------------------------------------------
 actual_cf <- read.csv("output/figure-data/fig04-observed-counterfactual-bars.csv")
 
@@ -232,7 +232,6 @@ actual_cf <- read.csv("output/figure-data/fig04-observed-counterfactual-bars.csv
 # expected decline based on changes in population structure."
 actual_hhsize_2000 <- actual_cf |> filter(var == "household_size") |> pull(observed_2000)
 expected_hhsize_2019 <- actual_cf |> filter(var == "household_size") |> pull(expected_2019)
-
 (natl_hhsize_diff) / (expected_hhsize_2019 - actual_hhsize_2000)
 
 # Observed change in headship rate is -0.43 pp
@@ -243,6 +242,20 @@ actual_hr_2019 - actual_hr_2000
 # Counterfactual expected change in headship rate was +2.23 pp
 expected_hr_2019 <- actual_cf |> filter(var == "headship_rate") |> pull(expected_2019)
 expected_hr_2019 - actual_hr_2000
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Unexplained differences by state
+# Page 9
+# "We find that average household size declined more than expected in California, 
+# Illinois, and across much of the Sunbelt, running from New Mexico to Mississippi. 
+# It is important to note that most of the seven states that experienced this pattern 
+# had larger-than-average household sizes in 2000. For example, California’s average 
+# household size was 3.997 people per household in 2000, third-highest in the nation. 
+# It experienced the second-largest decline in average household size between 2000 
+# and 2019 (behind only Illinois), though its 2019 average household size was still 
+# larger than national average (3.770 vs. a national average of 3.374). 
+#-------------------------------------------------------------------------------
+
 
 
 # what is this? vvv

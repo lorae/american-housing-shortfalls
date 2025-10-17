@@ -123,6 +123,7 @@ hhsize_age_agg <- tabulate_summary_2year(
     )
   ) |>
   arrange(subgroup) |>
+  select(-hhsize_pctchg_2000_2019) |>
   pivot_longer(
     cols = starts_with("hhsize_"),
     names_to = "year",

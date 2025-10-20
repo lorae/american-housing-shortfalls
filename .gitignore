@@ -9,6 +9,7 @@ tests/testthat/test-create-benchmark-sample/*
 # objects)
 cache/*
 throughput/*
+throughput/
 
 # Current SLURM logs
 slurm-logs/*
@@ -85,5 +86,3 @@ rsconnect/
 # SLURM logs
 slurm*
 
-
-throughput/state_shapefiles.rds

@@ -10,7 +10,7 @@
 # - TODO
 
 
-# ----- Step 0: Load required packages ----- #
+# ----- Step 0: Config ----- #
 # TODO: remove unneeded imports
 library("dplyr")
 library("duckdb")
@@ -24,12 +24,12 @@ library("base64enc")
 library("sf")
 options(scipen = 999)
 
-# ----- Step 1: Source helper functions ----- #
-# TODO: the below analysis is replicated in fig04; perhaps do once elsewhere
-
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
-load("data/helpers/cpuma-state-cross.rda") # Crosswalks CPUMA0010 to state
+
+# ----- Step 1: Load data ----- #
+cpuma_state_cross <- readRDS("data/helpers/cpuma-state-cross.rds") # Crosswalks CPUMA0010 to state
+# TODO: save these to helpers?
 state_sf <- readRDS("throughput/state_shapefiles.rds") # One shapefile row per state
 
 # ----- Step 2: Import and wrangle data ----- #

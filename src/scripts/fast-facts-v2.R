@@ -325,119 +325,26 @@ headship_state_cf |> filter(State == "Nebraska") |> pull(expected_2019)
 headship_state_cf |> slice_max(-diff, n = 5)
 # TODO: diff in this table should actaully be 2000 - 2019, not 2019 - 2000 (which it currently is)
 
-# what is this? vvv
+#-------------------------------------------------------------------------------
+# FAST FACT: Household size household shortfall calculation at CPUMA level
+# Page 10-11
+# "Using our measure of average household size, we estimate that 754 of the nation’s 
+# 1,078 cPUMAs (69.9%) would need to increase their number of households in 2019 
+# to reduce average household size to match counterfactual levels. Across these 754 
+# cPUMAs, at least 1.923 million more households would be necessary to match 2000 
+# patterns. By contrast, average household size has fallen below the counterfactual 
+# estimate in the other 324 cPUMAs, signaling that fewer households are needed to 
+# match 2000 levels.
+#-------------------------------------------------------------------------------
 
+hhsize_cf_cpuma <- readRDS("throughput/fine-grained-hhsize-diff-cpuma.rds")
 
-## Table of household sizes in 2000 and 2019 by age group
-age_bucket_summary |> filter(RACE_ETH_bucket == "All")
-
-## Age buckets with the largest household sizes
-age_bucket_summary |> filter(RACE_ETH_bucket == "All") |> slice_max(hhsize_2000, n = 1)
-age_bucket_summary |> filter(RACE_ETH_bucket == "All") |> slice_max(hhsize_2019, n = 1)
-
-## Average household size among children age 0-19
-ipums_db_age_v1 <- ipums_db |>
-  # Add columns for whether an individual is under 20 or over 65
-  mutate(
-    under20 = (AGE < 20), # excludes 20 year-olds
-    over65 = (AGE >= 65), # includes 65 year-olds
-    from20to64 = (AGE >= 20 & AGE < 65) # includes 20 yos, excludes 65 yos
-  )
-
-ipums_db_age_v2 <- ipums_db_age_v1 |>
-  # Add a column for whether a household contains an individual under 20
-  group_by(SAMPLE, SERIAL, YEAR) |> # uniquely IDs HHs
-  mutate(
-    contains_under20 = any(under20),
-    count_under20 = sum(as.integer(under20))
-    ) |>
-  ungroup()
-
-ipums_db_age_v3 <- ipums_db_age_v2 |>
-  # Add a column for whether an individual is an adult over 20 living in a hh with an under-20 yo
-  # Also add a column for the number of over 20 adults in a household with children
-  mutate(
-    cohabit_under20 = (contains_under20 & under20 == FALSE),
-    n_cohabit_under20 = NUMPREC - count_under20
-  )
-
-# # Visually inspect a few entries to ensure logic works properly
-# # Running this line will take 1-2 minutes
-# x <- ipums_db_age_v3 |> head(100) |> collect() |>
-#   select(SERIAL, NUMPREC, PERNUM, AGE, under20, from20to64, over65, contains_under20, count_under20, cohabit_under20, n_cohabit_under20)
-# View(x) # logic appears consistent with intention
-
-# Note: I needed 12 cores to make this step work. 5 cores, and the session crashes.
-tabulate_summary_2year(data = ipums_db_age_v3, years = c(2000,2019), group_by = "under20")
-tabulate_summary_2year(data = ipums_db_age_v3, years = c(2000,2019), group_by = "from20to64")
-tabulate_summary_2year(data = ipums_db_age_v3, years = c(2000,2019), group_by = "over65")
-
-## Average number of adults (age 20+) per household that contains at least one child (age <20)
-# ... in 2019
-crosstab_mean(
-  data = ipums_db_age_v3 |> filter(YEAR == 2019) |> filter(GQ %in% c(0,1,2)) |> filter(contains_under20 == TRUE),
-  value = "n_cohabit_under20",
-  wt_col = "PERWT",
-  group_by = c()
-)
-# ... in 2000
-crosstab_mean(
-  data = ipums_db_age_v3 |> filter(YEAR == 2000) |> filter(GQ %in% c(0,1,2)) |> filter(contains_under20 == TRUE),
-  value = "n_cohabit_under20",
-  wt_col = "PERWT",
-  group_by = c()
-)
-
-##############################################
-# Fast fact: household size by cPUMA
-##############################################
-## Average hhsize by CPUMA0010 in 2000 and 2019
-cpuma_hhsize <- tabulate_summary_2year(data = ipums_db, years = c(2000,2019), group_by = "CPUMA0010")
-cpuma_hhsize
-
-## Household size in the median CPUMA in 2000
-median(cpuma_hhsize$hhsize_2000)
-
-## Minimum household size in a CPUMA in 2000
-min(cpuma_hhsize$hhsize_2000)
-
-## Maximum household size in a CPUMA in 2000
-max(cpuma_hhsize$hhsize_2000)
-
-## Average household size increased/decreased in X% of CPUMAs from 2000 - 2019
-cpuma_hhsize <- cpuma_hhsize |>
-  mutate(
-    hhsize_decreased = (hhsize_pctchg_2000_2019 < 0)
-  )
-sum(cpuma_hhsize$hhsize_decreased) # number of CPUMAs where HH size decreased
-nrow(cpuma_hhsize) # total number of CPUMAs
-
-sum(cpuma_hhsize$hhsize_decreased) / nrow(cpuma_hhsize) # Proportion of CPUMAs where HH size decreased
-
-## Household size in the median CPUMA in 2019
-median(cpuma_hhsize$hhsize_2019)
-
-## Change in range in CPUMA-level HH size from 2000 to 2019
-# 2000 min, max, range
-min_2000 <- min(cpuma_hhsize$hhsize_2000)
-max_2000 <- max(cpuma_hhsize$hhsize_2000)
-
-min_2000
-max_2000
-max_2000 - min_2000
-
-# 2019 min, max, range
-min_2019 <- min(cpuma_hhsize$hhsize_2019)
-max_2019 <- max(cpuma_hhsize$hhsize_2019)
-
-min_2019
-max_2019
-max_2019 - min_2019
-
-##############################################
-# Fast fact: number of additional housing units needed
-##############################################
-source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
+# "we estimate that 754 of the nation’s  1,078 cPUMAs (69.9%) would need to increase 
+# their number of households in 2019 to reduce average household size to match counterfactual 
+# levels."
+hhsize_cf_cpuma |> filter(diff > 0) |> nrow()
+hhsize_cf_cpuma |> nrow()
+(hhsize_cf_cpuma |> filter(diff > 0) |> nrow()) / (hhsize_cf_cpuma |> nrow())
 
 ipums_db <- tbl(con, "ipums_processed")
 

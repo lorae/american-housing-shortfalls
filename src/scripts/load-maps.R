@@ -96,3 +96,7 @@ cpuma_sf_final <- cpuma_sf |>
 # ----- Step 4: Save ----- #
 saveRDS(cpuma_sf_final, "throughput/cpuma_shapefiles.rds")
 saveRDS(state_sf_final, "throughput/state_shapefiles.rds")
+
+# Save a crosswalk file
+cpuma_state_cross <- cpuma_sf_raw |> st_drop_geometry()
+save(cpuma_state_cross, file = "data/helpers/cpuma-state-cross.rda")

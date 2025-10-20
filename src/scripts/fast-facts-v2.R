@@ -244,7 +244,7 @@ expected_hr_2019 <- actual_cf |> filter(var == "headship_rate") |> pull(expected
 expected_hr_2019 - actual_hr_2000
 
 #-------------------------------------------------------------------------------
-# FAST FACT: Unexplained differences by state
+# FAST FACT: Unexplained household size differences by state
 # Page 9
 # "It is important to note that most of the seven states that experienced this pattern 
 # had larger-than-average household sizes in 2000. For example, California’s average 
@@ -253,7 +253,7 @@ expected_hr_2019 - actual_hr_2000
 # and 2019 (behind only Illinois), though its 2019 average household size was still 
 # larger than national average (3.770 vs. a national average of 3.374). 
 #-------------------------------------------------------------------------------
-# TODO: Do this way upstream!
+# TODO: Do this way upstream! Maybe in process-ipums
 # Copy the small lookup table to DuckDB
 cpuma_state_cross <- readRDS("data/helpers/cpuma-state-cross.rds") # Crosswalks CPUMA0010 to state
 copy_to(con, cpuma_state_cross, "cpuma_state_cross", temporary = TRUE, overwrite = TRUE)
@@ -291,7 +291,35 @@ state_hhsize |> slice_max(order_by = -diff, n = 2)
 state_hhsize |> filter(State == "California") |> pull(hhsize_2019)
 hhsize_agg |> pull(hhsize_2019)
 
+#-------------------------------------------------------------------------------
+# FAST FACT: Unexplained headship differences by state
+# Page 9
+# "Compared to the mixed findings when analyzing average household size, results 
+# using headship rates are consistent: observed headship rates in 2019 fell below 
+# expectations in all 50 states and DC (Figure 5, bottom panel). The smallest difference 
+# was in Nebraska, where headship increased from 40.11% in 2000 to 40.77% in 2019, 
+# still 1.09 percentage points less than the increase to 41.86% predicted under the 
+# counterfactual. The five places with the largest gaps between observed values and 
+# expectations were DC, Florida, Alabama, New Mexico, and California. With the exception 
+# of New Mexico, each of these sites saw a decline in headship rates over time, 
+# whereas the counterfactual prediction was of a large increase.
+#-------------------------------------------------------------------------------
 
+headship_state_cf <- read_csv("output/figure-data/fig05b-headship-diff-state-map.csv") |> 
+  mutate(diff_obs = observed_2019 - observed_2000) 
+
+# The smallest difference was in Nebraska,
+headship_state_cf |> slice_max(diff, n = 1)
+
+# where headship increased from 40.11% in 2000 to 40.77% in 2019, still 1.09 percentage 
+# points less than the increase to 41.86% predicted under the counterfactual.
+headship_state_cf |> filter(State == "Nebraska") |> pull(observed_2000)
+headship_state_cf |> filter(State == "Nebraska") |> pull(observed_2019)
+headship_state_cf |> filter(State == "Nebraska") |> pull(diff)
+headship_state_cf |> filter(State == "Nebraska") |> pull(expected_2019)
+
+# The five places with the largest gaps between observed values and expectations 
+# were DC, Florida, Alabama, New Mexico, and California.
 
 # what is this? vvv
 

@@ -12,7 +12,8 @@
 # 
 
 # ----- Step 0: Config ----- #
-
+library("sf")
+library("dplyr")
 
 # ----- Step 1: Download data ----- #
 
@@ -22,11 +23,7 @@ download.file(
   destfile = "data/shapefiles/us_states_2025.zip",
   mode = "wb"
 )
-
-# Unzip
 unzip("data/shapefiles/us_states_2025.zip", exdir = "data/shapefiles/us_states_2025")
-
-# Read in
 state_sf_raw <- st_read("data/shapefiles/us_states_2025/s_18mr25.shp")
 
 ### IPUMS CPUMA0010 Boundaries
@@ -35,11 +32,7 @@ download.file(
   destfile = "data/shapefiles/ipums_cpuma0010.zip",
   mode = "wb"
 )
-
-# Unzip
 unzip("data/shapefiles/ipums_cpuma0010.zip", exdir = "data/shapefiles/ipums_cpuma0010")
-
-# Read in
 cpuma_sf_raw <- st_read("data/shapefiles/ipums_cpuma0010/ipums_cpuma0010.shp")
 
 # ----- Step 1: Define helper functions ----- #

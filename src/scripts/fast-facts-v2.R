@@ -246,16 +246,44 @@ expected_hr_2019 - actual_hr_2000
 #-------------------------------------------------------------------------------
 # FAST FACT: Unexplained differences by state
 # Page 9
-# "We find that average household size declined more than expected in California, 
-# Illinois, and across much of the Sunbelt, running from New Mexico to Mississippi. 
-# It is important to note that most of the seven states that experienced this pattern 
+# "It is important to note that most of the seven states that experienced this pattern 
 # had larger-than-average household sizes in 2000. For example, California’s average 
 # household size was 3.997 people per household in 2000, third-highest in the nation. 
 # It experienced the second-largest decline in average household size between 2000 
 # and 2019 (behind only Illinois), though its 2019 average household size was still 
 # larger than national average (3.770 vs. a national average of 3.374). 
 #-------------------------------------------------------------------------------
+# TODO: Do this way upstream!
+# Copy the small lookup table to DuckDB
+cpuma_state_cross <- readRDS("data/helpers/cpuma-state-cross.rds") # Crosswalks CPUMA0010 to state
+copy_to(con, cpuma_state_cross, "cpuma_state_cross", temporary = TRUE, overwrite = TRUE)
 
+# Now join inside DuckDB
+temp <- ipums_db |>
+  left_join(tbl(con, "cpuma_state_cross"), by = "CPUMA0010")
+
+state_hhsize <- crosstab_mean(
+  data = temp |> filter(GQ %in% c(0,1,2)),
+  value = "NUMPREC",
+  wt_col = "PERWT",
+  group_by = c("YEAR", "State")
+) |>
+  select(State, YEAR, weighted_mean) %>%
+  pivot_wider(
+    names_from = YEAR,
+    values_from = weighted_mean,
+    names_prefix = "hhsize_"
+  ) |>
+  mutate(diff = hhsize_2000 - hhsize_2019) |>
+  arrange(State)
+
+# California’s average household size was 3.997 people per household in 2000, third-highest 
+# in the nation.
+state_hhsize_2000 |> filter(YEAR == 2000) |> slice_max(order_by = weighted_mean, n = 3)
+state_hhsize_2000 |> filter(State == "California") |> pull(weighted_mean)
+
+# It experienced the second-largest decline in average household size between 2000 
+# and 2019 (behind only Illinois)
 
 
 # what is this? vvv

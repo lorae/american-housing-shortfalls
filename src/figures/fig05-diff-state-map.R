@@ -15,6 +15,7 @@ library("readxl")
 library("ggplot2")
 library("base64enc")
 library("sf")
+library("readr")
 options(scipen = 999)
 
 devtools::load_all("../demographr")

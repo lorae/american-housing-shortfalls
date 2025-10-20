@@ -3,8 +3,6 @@
 #
 # Last modified October 2025
 #
-# TODO: When manuscript is released, add page numbers.
-# 
 # ----- Step 0: Load required packages ----- #
 library("dplyr")
 library("duckdb")
@@ -87,7 +85,7 @@ hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
 # monotonically from age 40 onwards."
 #-------------------------------------------------------------------------------
 
-hhsize_age <- read.csv("output/figure-data/accessory-fig06-hhsize-age-2per-line.csv")
+hhsize_age <- read.csv("output/figure-data/fig06-accessory-hhsize-age-2per-line.csv")
 
 # household size changed relatively little for those under 20 (<1% from 2000 - 2019)
 hhsize_age |> filter(subgroup < "20-24")
@@ -398,9 +396,11 @@ headship_cf_cpuma |>
 # size) and 13.032 million additional households (based on headship rates)
 #-------------------------------------------------------------------------------
 
+# ...between 8.358 million additional households (minimum based on average household 
+# size)
 # Pull the average number of people in a white person's home in 2019
 white_hhsize_2019 <- crosstab_mean(
-  data = ipums_db |> filter(GQ %in% c(0,1,2)),
+  data = ipums_db |> filter(GQ %in% c(0,1,2)) |> filter(YEAR == 2019),
   value = "NUMPREC",
   wt_col = "PERWT",
   group_by = c("RACE_ETH_bucket", "YEAR")
@@ -408,25 +408,24 @@ white_hhsize_2019 <- crosstab_mean(
   filter(RACE_ETH_bucket == "White", YEAR == 2019) |>
   pull(weighted_mean)
 
-# Use this value on all CPUMAs
 hhsize_cf_cpuma |>
   mutate(
     white_hhsize_2019 = white_hhsize_2019,
-    white_diff = white_hhsize_2019 - observed_2000
+    white_diff = white_hhsize_2019 - observed_2019
     ) |>
   filter(white_diff < 0) |>
   mutate(
-    p_over_s_2019 = pop_2019 / observed_2019,
-    p_over_s_white_cf = pop_2019 / white_hhsize_2019,
-    minimum_surfeit = p_over_s_white_cf - p_over_s_2019
+    minimum_surfeit = (pop_2019 / observed_2019) - (pop_2019 / white_hhsize_2019)
   ) |>
   pull(minimum_surfeit) |>
   sum()
 
+# ...and 14.016 million additional households (based on headship rates)
+ipums_db_temp <- ipums_db |>
+  mutate(is_hoh = as.numeric(PERNUM == 1))
 
-# Pull the average headship rate among white people in 2019
 white_headship_2019 <- crosstab_mean(
-  data = ipums_db |> filter(GQ %in% c(0,1,2)),
+  data = ipums_db_temp |> filter(GQ %in% c(0,1,2)),
   value = "is_hoh",
   wt_col = "PERWT",
   group_by = c("RACE_ETH_bucket", "YEAR")
@@ -434,11 +433,10 @@ white_headship_2019 <- crosstab_mean(
   filter(RACE_ETH_bucket == "White", YEAR == 2019) |>
   pull(weighted_mean)
 
-# Use this value on all CPUMAs
 headship_cf_cpuma |>
   mutate(
     white_headship_2019 = white_headship_2019,
-    white_diff = white_headship_2019 - observed_2000
+    white_diff = white_headship_2019 - observed_2019
     ) |>
   filter(white_diff > 0) |>
   mutate(

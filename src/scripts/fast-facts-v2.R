@@ -362,6 +362,31 @@ hhsize_cf_cpuma |>
 # in the other 324 cPUMAs
 hhsize_cf_cpuma |> filter(diff < 0) |> nrow()
 
+#-------------------------------------------------------------------------------
+# FAST FACT: Headship household shortfall calculation at CPUMA level
+# Page 11
+# "To match counterfactual levels, headship rates would need to increase in 1054 cPUMAs 
+# (97.8%). Cumulatively, 8.439 million additional households would be necessary to 
+# achieve this effect.
+#-------------------------------------------------------------------------------
+headship_cf_cpuma <- readRDS("throughput/fine-grained-headship-diff-cpuma.rds")
+
+# To match counterfactual levels, headship rates would need to increase in 1054 cPUMAs 
+# (97.8%).
+headship_cf_cpuma |> filter(diff < 0) |> nrow()
+headship_cf_cpuma |> nrow()
+(headship_cf_cpuma |> filter(diff < 0) |> nrow()) / (headship_cf_cpuma |> nrow())
+
+# Cumulatively, 8.439 million additional households would be necessary to achieve 
+# this effect.
+headship_cf_cpuma |>
+  filter(diff < 0) |>
+  mutate(
+    surfeit = diff * pop_2019
+  ) |>
+  pull(surfeit) |>
+  sum()
+
 # ------------------------------------------------------------------------------
 
 

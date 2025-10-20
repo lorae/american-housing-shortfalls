@@ -274,16 +274,23 @@ state_hhsize <- crosstab_mean(
     values_from = weighted_mean,
     names_prefix = "hhsize_"
   ) |>
-  mutate(diff = hhsize_2000 - hhsize_2019) |>
+  mutate(diff = hhsize_2019 - hhsize_2000) |>
   arrange(State)
 
 # California’s average household size was 3.997 people per household in 2000, third-highest 
 # in the nation.
-state_hhsize_2000 |> filter(YEAR == 2000) |> slice_max(order_by = weighted_mean, n = 3)
-state_hhsize_2000 |> filter(State == "California") |> pull(weighted_mean)
+state_hhsize |> slice_max(order_by = hhsize_2000, n = 3)
+state_hhsize |> filter(State == "California") |> pull(hhsize_2000)
 
 # It experienced the second-largest decline in average household size between 2000 
 # and 2019 (behind only Illinois)
+state_hhsize |> slice_max(order_by = -diff, n = 2)
+
+# Though its 2019 average household size was still larger than national average 
+# (3.770 vs. a national average of 3.374). 
+state_hhsize |> filter(State == "California") |> pull(hhsize_2019)
+hhsize_agg |> pull(hhsize_2019)
+
 
 
 # what is this? vvv

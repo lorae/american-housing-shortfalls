@@ -346,6 +346,25 @@ hhsize_cf_cpuma |> filter(diff > 0) |> nrow()
 hhsize_cf_cpuma |> nrow()
 (hhsize_cf_cpuma |> filter(diff > 0) |> nrow()) / (hhsize_cf_cpuma |> nrow())
 
+# Across these 754 cPUMAs, at least 1.923 million more households would be necessary 
+# to match 2000 patterns.
+hhsize_cf_cpuma |>
+  filter(diff > 0) |>
+  mutate(
+    p_over_s_2019 = pop_2019 / observed_2019,
+    p_over_s_cf = pop_2019 / expected_2019,
+    minimum_surfeit = p_over_s_cf - p_over_s_2019
+  ) |>
+  pull(minimum_surfeit) |>
+  sum()
+
+# By contrast, average household size has fallen below the counterfactual estimate 
+# in the other 324 cPUMAs
+hhsize_cf_cpuma |> filter(diff < 0) |> nrow()
+
+# ------------------------------------------------------------------------------
+
+
 ipums_db <- tbl(con, "ipums_processed")
 
 # Calculate CPUMA-level fully-controlled diffs

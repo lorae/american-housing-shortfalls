@@ -33,6 +33,7 @@ renv/
 data/
 !data/helpers/
 !data/helpers/**
+!data/shapefiles/us_states_2025/.gitkeep
 
 # History files
 .Rhistory

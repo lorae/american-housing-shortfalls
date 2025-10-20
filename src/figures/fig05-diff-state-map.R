@@ -58,3 +58,6 @@ fig05b
 # ----- Step 4: Save ----- #
 ggsave("output/figures/fig05a-hhsize-diff-state-map.jpeg", plot = fig05a, width = 6.5, height = 4, dpi = 300)
 ggsave("output/figures/fig05b-headship-diff-state-map.jpeg", plot = fig05b, width = 6.5, height = 4, dpi = 300)
+
+write_csv(hhsize_state_summary, "output/figure-data/fig05a-hhsize-diff-state-map.csv")
+write_csv(headship_state_summary, "output/figure-data/fig05b-headship-diff-state-map.csv")

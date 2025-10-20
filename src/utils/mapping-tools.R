@@ -30,6 +30,17 @@ unzip("data/shapefiles/us_states_2025.zip", exdir = "data/shapefiles/us_states_2
 state_sf_raw <- st_read("data/shapefiles/us_states_2025/s_18mr25.shp")
 
 ### IPUMS CPUMA0010 Boundaries
+download.file(
+  url = "https://usa.ipums.org/usa/resources/volii/shapefiles/ipums_cpuma0010.zip",
+  destfile = "data/shapefiles/ipums_cpuma0010.zip",
+  mode = "wb"
+)
+
+# Unzip
+unzip("data/shapefiles/ipums_cpuma0010.zip", exdir = "data/shapefiles/ipums_cpuma0010")
+
+# Read in
+cpuma_sf_raw <- st_read("data/shapefiles/ipums_cpuma0010/ipums_cpuma0010.shp")
 
 # ----- Step 1: Define helper functions ----- #
 # Creates a 2x2 matrix representing the rotation transformation relative to angle
@@ -75,9 +86,7 @@ state_sf_final <- state_sf %>%
   bind_rows(alaska, hawaii)
 
 # ----- Step 3: Create the CPUMA shapefile ----- #
-# TODO: figure out and document where this shapefile comes from
-# Load shapefiles. Data is unzipped from WHERE? TODO: document
-cpuma_sf <- st_read("data/ipums-cpuma0010-sf/ipums_cpuma0010.shp") |>
+cpuma_sf <- cpuma_sf_raw |>
   filter(!STATEFIP %in% c('60', '64', '66', '68', '69', '70', '72', '78')) |># Remove excluded states, like Puerto Rico
   st_transform(crs = "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs") |>
   mutate(geometry = st_simplify(geometry, dTolerance =  5000))  # Simplify shapes

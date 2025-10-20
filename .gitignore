@@ -86,3 +86,4 @@ rsconnect/
 slurm*
 
 
+throughput/state_shapefiles.rds

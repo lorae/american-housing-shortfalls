@@ -27,7 +27,7 @@ options(scipen = 999)
 
 devtools::load_all("../demographr")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
-load("data/helpers/cpuma-state-cross.rda") # Crosswalks CPUMA0010 to state
+cpuma_state_cross <- readRDS("data/helpers/cpuma-state-cross.rds") # Crosswalks CPUMA0010 to state
 
 # ----- Step 2: Import data ----- #
 state_sf <- readRDS("throughput/state_shapefiles.rds") # One shapefile row per state

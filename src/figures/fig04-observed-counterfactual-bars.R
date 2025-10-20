@@ -16,7 +16,7 @@ options(scipen = 999)
 
 # ----- Step 1: Source helper functions ----- #
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
 source("src/utils/plotting-tools.R") # defines `make_observed_cf_barplot()`
 
@@ -45,10 +45,17 @@ h <- make_observed_cf_barplot(
 
 fig04 <- p + h
 
-# ----- Step 4: Save plots ----- #
+# ----- Step 4: Clean data for saving ----- #
+clean_data <- cf_summaries |> mutate(var = c("household_size", "headship_rate")) |> select(var, observed_2000, observed_2019, expected_2019) 
+
+# ----- Step 4: Save ----- #
 ggsave(
   "output/figures/fig04-observed-counterfactual-bars.jpeg",
   plot = fig04,
   width = 3000, height = 2000, units = "px", dpi = 300
 )
 
+write_csv(
+  clean_data,
+  "output/figure-data/fig04-observed-counterfactual-bars.csv"
+)

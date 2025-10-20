@@ -14,14 +14,14 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     ```
 
     ```bash
-    git clone https://github.com/lorae/households-over-the-years households-over-the-years
+    git clone https://github.com/lorae/american-housing-shortfalls american-housing-shortfalls
     git clone https://github.com/lorae/demographr demographr
     ```
 
 2. Enter the main project
 
     ```bash
-    cd households-over-the-years
+    cd american-housing-shortfalls
     ```
 
 3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys)
@@ -34,18 +34,17 @@ have trouble following these steps, please follow the **Detailed Start** guide b
 
 4. Restore dependencies and run the analysis
 
-    Open `households-over-the-years.Rproj` in your preferred IDE, then in the R console:
+    Open `american-housing-shortfalls.Rproj` in your preferred IDE, then in the R console:
     
     ```r
     renv::restore()
     source("run-all.R")
     ```
     
-# Project setup
+## 📎 Detailed Start
+Detailed instructions for how to fully install and run this project code on your computer.
 
-To run this project, the user should have both R and git installed on their computer, along with a working familiarity with both softwares.
-   
-### 📦️ Part A: Clone the repo and configure the R project
+###  Part A: Clone the repo and configure the R project
 
 These steps will allow you to install the code on your computer that runs this project and set up the environment so that it mimics the environment on which the code was developed.
 
@@ -88,16 +87,17 @@ an hour.
     library("renv")
     ```
     
-    Then initialize the project:
+    Then load all the packages needed for the project:
     
     ```r
-    renv::init()
+    renv::activate()
+    renv::restore()
     ```
     
-    At this point, a message will print into the console informing you that this project already has a lockfile. 
-    Select option `1: Restore the project from the lockfile`. 
+    When it asks if you want to proceed, type `y` for "yes".
+    
 
-### 📥️ Part B: Download raw data from IPUMS USA
+### Part B: Download raw data from IPUMS USA
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
 the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
@@ -128,69 +128,10 @@ from the codebase.
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
 
-### 📊 Part C: Run the analysis scripts
+
+### Part C: Run the analysis scripts
 
 The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` foler contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
-
-We'll now explain each of the `scripts` files in turn, which walk the researcher through data ingestion, throughput generation, and generation of output and figures.
-
-**The scripts should be run in the following order**:
-1. `import-ipums.R`
-2. `process-ipums.R`
-
-#### `import-ipums.R`
-
-This script serves two purposes:
-1. Read in the IPUMS USA microdata from its raw, brittle format in the source `.dat.gz` file into a DuckDB database, which can be more agilely manipulated and analyzed.
-
-2. Read IPUMS USA pull metadata and saved clean files into the `docs/` folder that help with later data reconciliation and labelling.
-
-This script leverages the `ipumsr` package for this purpose. Due to the relatively large size of the source data (2 GB as of June 2025), it requires about 5 minutes to run when using 15 cores, 1000 GB memory, R version 4.4.2.
-
-**Inputs**:
-- `data/ipums-microdata/usa_0020.xml`
-- `data/ipums-microdata/usa_0020.dat.gz`
-
-**Outputs**:
-- `data/db/ipums.duckdb`
-- `docs/ipums_value_labels.RData`
-- `docs/ipums-data-dictionary.html` (currently deprecated and no longer generated)
-
-The `db/ipums.duckdb` file contains the primary data used in the remainder of the project. The other outputs in the `docs` directory are used downstream for graph labelling, re-attaching labels after KOB regressions are done, and more. 
-TODO: specify more here.
-
-#### `process-ipums.R`
-The purpose of this script is to attach essential accessory columns to the raw microdata for downstream analysis. It reads from the `ipums` table in `data/db/ipums-raw.duckdb` and writes processed data to the `ipums_bucketed` table in `data/db/ipums-processed.duckdb`. For example, data are bucketed from their raw format (e.g. `INCTOT`) to a processed, discrete format like `INCTOT_cpiu_2010_bucket`. Here is an up-to-date list on which variables are created, and how, as of June 2025:
-TODO: Create a separate codebook page and add this there.
-
-- `pers_id`: generated by concatenating the `SAMPLE`, `SERIAL`, and `PERNUM` columns, separating using an underscore. This is the IPUMS-recommended way to [uniquely identify each person](https://usa.ipums.org/usa-action/variables/PERNUM#description_section).
-- `hh_id`: generated by contatenating the `SAMPLE` and `SERIAL` columns, separating using an underscore. This is the IPUMS-recommended way to [uniquely identify each household](https://usa.ipums.org/usa-action/variables/SERIAL#description_section).
-- `AGE_bucket`: generated by applying the `lookup_tables/age/age_buckets01.csv` lookup table to the `AGE` column to create discrete buckets [TODO: of what.....?]
-- `HHINCOME_bucket`: a deprecated column, no longer used, in favor of `INCTOT_cpiu_2010_bucket`. Generated by applying the `lookup_tables/hhincome/hhincome_buckets03.csv` lookup table to the `HHINCOME` column. (TODO: delete this, after refactoring INCTOT_cpiu_2010_bucket to use the same logic rather than its current clunky hard-coded format.)
-- `HISPAN_bucket`: a throughput column that is generated by applying the `"lookup_tables/hhincome/hhincome_buckets03.csv` lookup table to the `HISPAN` column to create [a boolean? what? TODO: of what.....?]
-- `RACE_bucket`: a througput column that is generated by applying the `lookup_tables/race/race_buckets00.csv` lookup table to the `RACE` column to create [TODO what?]
-- `EDUC_bucket` a throughput column that is generated by applying the `lookup_tables/educ/educ_buckets00.csv` lookup table to the `EDUC` column to create [TODO: what?????]
-- `RACE_ETH_bucket`: a column that is created by combining entries in `HISPAN_bucket` and `RACE_bucket`. Used to create exclusive race/ethnicity labels. The code writing the SQL query to generate these labels can be found in the `dataduck` package (TODO: move it or make it simpler to access)
-- `cpiu`: a throughput column that is generated by importing a BLS data series with annual CPI-U values
-- `cpiu_2010_value`: a throughput column that contains the CPI-U value in 2010.
-- `cpiu_2010_deflator`: a throughput column derived by dividing the current `YEAR`'s `cpiu` value by the `cpiu_2010_value`
-- `INCTOT_cpiu_2010`: a throughput column derived dividing the `INCTOT` column by the `cpiu_2010_deflator` column, along with two hard-coded exceptions (NA and `AGE` < 15)
-- `INCTOT_cpiu_2010_bucket`: a column created by bucketing `INCTOT_cpiu_2010` in 7 groups, ranging from negative values to over $200,000.
-- `us_born`: a boolean column that is `TRUE` when the `BPL` (birthplace) variable is less than 120 (see [documentation](https://usa.ipums.org/usa-action/variables/BPL#codes_section) for BPL codes)
-- `persons_per_bedroom`: a numeric column derived by dividing `NUMPREC` by `BEDROOMS`. Note that we filter out individuals living in group quarters from our analysis, so edge cases for those individuals do not affect `NUMPREC`-related results (TODO: expand more upon that here. BEDROOMS is always NA when GQ !in 0,1,2; right? And isn't NUMPREC NA? Doesn't matter anyway since they're filtered away but a best practice mgiht be to manually set these entries as NA)
-- `tenure`: equals "homeowner" or "renter"
-- `gender`: equals "male" or "female"
-- `cpuma`: a character-encoded (rather than numeric) version of the [CPUMA0010 variable](https://usa.ipums.org/usa-action/variables/CPUMA0010)
-
-**Inputs**:
-- needs `dataduck` package
-- `data/db/ipums.duckdb`: `ipums` table
-
-**Outputs**:
-- `data/db/ipums.duckdb`: `ipums_processed` table
-
-Outputs are used downstream for all subsequent analysis.
-
 
 
 ## API Setup: Census Data Access

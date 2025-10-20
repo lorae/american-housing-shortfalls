@@ -182,6 +182,7 @@ arrow_legend_plot <- ggplot(legend_arrow_df) +
   theme(legend.position = "none") +
   coord_cartesian(xlim = c(0.7, 2.4))
 
+# p = persons per household
 p <- make_arrowplot(
   dotplot_data = prep_dotplot_data(hhsize_state, state_order),
   x_title = "Average Household Size",
@@ -204,9 +205,37 @@ fig03 <- (p + h) / arrow_legend_plot  +
 
 fig03
 
-# ----- Step 3: Save plots ----- #
+# ----- Step 3: Generate pretty data to save with plots ----- #
+# Generate data for plot
+fig03_hhsize_data <- prep_dotplot_data(hhsize_state, state_order)$data_long |>
+  pivot_wider(
+    names_from = year,
+    values_from = observed,
+    names_prefix = "household_size_"
+  ) |>
+  arrange(State)
+
+fig03_headship_data <- prep_dotplot_data(headship_state, state_order)$data_long |>
+  pivot_wider(
+    names_from = year,
+    values_from = observed,
+    names_prefix = "headship_rate_"
+  ) |>
+  arrange(State)
+
+# ----- Step 4: Save ----- #
 ggsave(
   "output/figures/fig03-state-headship-arrows.jpeg", 
   plot = fig03, 
   width = 4000, height = 4000, units = "px", dpi = 400
+)
+
+write_csv(
+  fig03_hhsize_data,
+  "output/figure-data/fig03-household-size-state.csv", 
+)
+
+write_csv(
+  fig03_headship_data,
+  "output/figure-data/fig03-headship-rate-state.csv", 
 )

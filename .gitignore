@@ -9,6 +9,7 @@ tests/testthat/test-create-benchmark-sample/*
 # objects)
 cache/*
 throughput/*
+throughput/
 
 # Current SLURM logs
 slurm-logs/*
@@ -33,6 +34,7 @@ renv/
 data/
 !data/helpers/
 !data/helpers/**
+!data/shapefiles/us_states_2025/.gitkeep
 
 # History files
 .Rhistory
@@ -83,5 +85,4 @@ rsconnect/
 
 # SLURM logs
 slurm*
-
 

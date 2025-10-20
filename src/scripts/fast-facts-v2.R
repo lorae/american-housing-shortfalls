@@ -1,6 +1,7 @@
 # The purpose of this script is to provide replicable code which backs the 
-# in-line "fast facts" we calculate in the manuscript
-# Last modified late September 2025.
+# in-line "fast facts" fast facts provided in the manuscript
+#
+# Last modified October 2025
 #
 # TODO: When manuscript is released, add page numbers.
 # 
@@ -19,7 +20,7 @@ library("sf")
 
 # ----- Step 1: Source helper functions ----- #
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 source("src/utils/aggregation-tools.R") # tabulate_summary and tabulate_summary_2yr
 
 # ----- Step 2: Import and wrangle data ----- #
@@ -29,7 +30,7 @@ ipums_db <- tbl(con, "ipums_processed")
 
 #-------------------------------------------------------------------------------
 # FAST FACT: percent of the population living in institutions in 2000 and 2019
-# Page X
+# Page 3
 # "We exclude individuals living in institutional settings, such as prisons
 # and nursing homes; this leads us to remove 2.8% of the population in 2000 and 
 # 2.5% in the 2015-2019 data"
@@ -66,7 +67,7 @@ gq_2019 |>
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Aggregate household size in 2000 and 2019
-# Page X
+# Page 6
 # "In 2000, Americans lived, on average, in households of 3.467 people; by 2019 
 # that had fallen to 3.374 people, a drop of 2.7%."
 #-------------------------------------------------------------------------------
@@ -78,7 +79,7 @@ hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
 
 #-------------------------------------------------------------------------------
 # FAST FACT: Household size by age in 2000 and 2019
-# Page X
+# Page 6
 # "Average household size is largest at youngest ages and changed relatively little
 # over time for people under age 20. People live, on average, in slightly smaller
 # households throughout their 20s, then see an increase in household size in their 
@@ -86,45 +87,179 @@ hhsize_agg |> pull(hhsize_pctchg_2000_2019) # Percentage change
 # monotonically from age 40 onwards."
 #-------------------------------------------------------------------------------
 
-# TODO
-hhsize_age_agg <- tabulate_summary_2year(
-  data = ipums_db, 
-  years = c(2000,2019), 
-  group_by = "AGE_bucket",
-  ) |>
-  mutate(
-    subgroup = factor(
-      subgroup,
-      levels = c(
-        "0-4", "5-9", "10-14", "15-19",
-        "20-24", "25-29", "30-34", "35-39",
-        "40-44", "45-49", "50-54", "55-59",
-        "60-64", "65-69", "70-74", "75-79",
-        "80-84", "85plus"
-      )
-    )
-  ) |>
-  arrange(subgroup) |>
-  pivot_longer(
-    cols = starts_with("hhsize_"),
-    names_to = "year",
-    values_to = "hhsize"
-  ) |>
-  mutate(year = case_when(
-    year == "hhsize_2000" ~ 2000,
-    year == "hhsize_2019" ~ 2019
-  ))
+hhsize_age <- read.csv("output/figure-data/accessory-fig06-hhsize-age-2per-line.csv")
 
-ggplot(hhsize_age_agg, aes(x = subgroup, y = hhsize, group = year, color = factor(year))) +
-  geom_line(size = 1) +
+# household size changed relatively little for those under 20 (<1% from 2000 - 2019)
+hhsize_age |> filter(subgroup < "20-24")
+
+# Remainder of the fact is best checked by viewing the contours of the lines in
+# output/figures/accessory-fig06-hhsize-age-2per-line.jpeg
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Aggregate headship rate in 2000 and 2019
+# Page 6
+# "Headship rates fell over the same period as well, from 38.58% to 38.15%."
+#-------------------------------------------------------------------------------
+
+headship_agg <- crosstab_percent(
+  data = ipums_db |> filter(GQ %in% c(0,1,2)),
+  wt_col = "PERWT",
+  group_by = c("YEAR", "PERNUM"),
+  percent_group_by = c("YEAR")
+) |>
+  filter(PERNUM == 1)
+
+headship_agg |> filter(YEAR == 2000) |> pull(percent) # 2000 headship rate
+headship_agg |> filter(YEAR == 2019) |> pull(percent) # 2019 headship rate
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Headship rates in 2000 and 2019 by age
+# Page 6
+# "Headship rates were lower in 2019 than they were in 2000 at all ages. This effect, 
+# though, is particularly pronounced in early and late adulthood. For example, only 
+# 20% of people aged 20–24 were household heads in 2019, down from 28% at the 
+# turn of the millennium. For people between the ages of 30 and 74, reductions in 
+# headship rates over time were relatively small (3 percentage points or less), but these 
+# drops were larger for individuals aged 75 and above (at least 6 percentage points lower)."
+#-------------------------------------------------------------------------------
+
+headship_age <- read.csv("output/figure-data/fig02-headship-age-year-bars.csv")
+
+# "Headship rates were lower in 2019 than they were in 2000 at all ages"
+headship_age <- headship_age |>
+  mutate(
+    diff = headship_rate_2019 - headship_rate_2000
+  )
+headship_age
+
+# For people between the ages of 30 and 74, reductions in headship rates over time 
+# were relatively small (3 percentage points or less)
+headship_age |> filter(subgroup >= "30-34" & subgroup < "75-79")
+
+# ..but these drops were lower for individuals aged 75 and above (at least 6 percentage
+# points lower).
+headship_age |> filter(subgroup >= "75-79")
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Average household size by state
+# Page 7
+# "Average household size (left panel of Figure 3) in 2000 varied from 3.075 people 
+# in Maine to 4.161 people in Utah. Across the 50 states and the District of Columbia 
+# (DC), average household size fell between 2000 and 2019 in all but four states 
+# (Oklahoma, Alaska, Kentucky, and Tennessee). In 18 states and DC, the drop was larger 
+# than the national average (a reduction of 0.093 people per household). Louisiana, 
+# DC, New Mexico, California, and Illinois all saw drops in average household size of 
+# more than 0.2 people."
+#-------------------------------------------------------------------------------
+hhsize_state <- read.csv("output/figure-data/fig03-household-size-state.csv")
+
+hhsize_state |> filter(household_size_2000 == min(household_size_2000)) # Maine: min avg hhsize 2000
+hhsize_state |> filter(household_size_2000 == max(household_size_2000)) # Utah: max avg hhsize 2000
+
+# Average household size fell between 2000 and 2019 in all but four states
+hhsize_state <- hhsize_state |> 
+  mutate(diff = household_size_2019 - household_size_2000) 
+hhsize_state |> filter(diff >= 0)
+
+# In 18 states and DC, the drop was larger than the national average (a reduction of
+# 0.093 people per household).
+natl_hhsize_diff <- (hhsize_agg |> pull(hhsize_2019)) - (hhsize_agg |> pull(hhsize_2000)) 
+natl_hhsize_diff
+
+hhsize_state |> filter(diff < natl_hhsize_diff )
+
+# Louisiana, DC, New Mexico, California, and Illinois all saw drops in average household size of 
+# more than 0.2 people.
+hhsize_state |> filter(diff < -0.2)
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Average headship rate by state
+# Page 7
+# "In the right panel of Figure 3, we see similar variation in headship rates. In 2000, 
+# headship rates ran from a low of 32.00% in Utah to a high of 46.28% in DC. Headship 
+# rates fell over time in 25 states and DC, with the largest decline in Florida (40.71% 
+# in 2000 to 37.80% in 2019). Rates rose in the other 25 states, with the largest increases 
+# recorded in Maine, Michigan, Wisconsin, North Dakota, and Vermont."
+#-------------------------------------------------------------------------------
+headship_state <- read.csv("output/figure-data/fig03-headship-rate-state.csv")
+
+headship_state |> filter(headship_rate_2000 == min(headship_rate_2000)) # Utah: min avg HR 2000
+headship_state |> filter(headship_rate_2000 == max(headship_rate_2000)) # DC: max avg HR 2000
+
+# Headship rates fell over time in 25 states and DC
+headship_state <- headship_state |> 
+  mutate(diff = headship_rate_2019 - headship_rate_2000) 
+headship_state |> filter(diff <= 0)
+
+# ...with the largest decline in Florida (40.71% in 2000 to 37.80% in 2019)
+headship_state |> arrange(diff) |> slice_head(n = 1)
+
+# Rates rose in the other 25 states
+headship_state |> filter(diff > 0) 
+
+# ... with the largest increases recorded in Maine, Michigan, Wisconsin, North Dakota, 
+# and Vermont
+headship_state |> arrange(-diff) |> slice_head(n = 5)
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Headship vs. change in headship
+# Page 7
+# "There is no consistent pattern linking headship rates in 2000 to changes over 
+# the subsequent 20 years: rates rose and fell in states with high baseline rates 
+# as well as in states with low baseline rates."
+#-------------------------------------------------------------------------------
+
+# This graph should be sufficiently convincing of the point
+ggplot(headship_state, aes(x = headship_rate_2000, y = diff)) +
   geom_point() +
   labs(
-    x = "Age group",
-    y = "Average household size",
-    color = "Year"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    x = "Headship rate, 2000",
+    y = "Change in headship rate, 2000–2019"
+  )
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Observed vs expected aggregate change
+# Page 8
+# "The actual drop in average household size (0.093 people) amounts to 73.9% of the 
+# expected decline based on changes in population structure."
+# "...Notably, in this case the observed change [in headship rate] (a decrease of 
+# 0.43 percentage points) is in the opposite direction as the counterfactual (an 
+# expected increase of 2.23 percentage points)."
+#-------------------------------------------------------------------------------
+actual_cf <- read.csv("output/figure-data/fig04-observed-counterfactual-bars.csv")
+
+# "The actual drop in average household size (0.093 people) amounts to 73.9% of the 
+# expected decline based on changes in population structure."
+actual_hhsize_2000 <- actual_cf |> filter(var == "household_size") |> pull(observed_2000)
+expected_hhsize_2019 <- actual_cf |> filter(var == "household_size") |> pull(expected_2019)
+(natl_hhsize_diff) / (expected_hhsize_2019 - actual_hhsize_2000)
+
+# Observed change in headship rate is -0.43 pp
+actual_hr_2000 <- actual_cf |> filter(var == "headship_rate") |> pull(observed_2000)
+actual_hr_2019 <- actual_cf |> filter(var == "headship_rate") |> pull(observed_2019)
+actual_hr_2019 - actual_hr_2000
+
+# Counterfactual expected change in headship rate was +2.23 pp
+expected_hr_2019 <- actual_cf |> filter(var == "headship_rate") |> pull(expected_2019)
+expected_hr_2019 - actual_hr_2000
+
+#-------------------------------------------------------------------------------
+# FAST FACT: Unexplained differences by state
+# Page 9
+# "We find that average household size declined more than expected in California, 
+# Illinois, and across much of the Sunbelt, running from New Mexico to Mississippi. 
+# It is important to note that most of the seven states that experienced this pattern 
+# had larger-than-average household sizes in 2000. For example, California’s average 
+# household size was 3.997 people per household in 2000, third-highest in the nation. 
+# It experienced the second-largest decline in average household size between 2000 
+# and 2019 (behind only Illinois), though its 2019 average household size was still 
+# larger than national average (3.770 vs. a national average of 3.374). 
+#-------------------------------------------------------------------------------
+
+
+
+# what is this? vvv
+
 
 ## Table of household sizes in 2000 and 2019 by age group
 age_bucket_summary |> filter(RACE_ETH_bucket == "All")

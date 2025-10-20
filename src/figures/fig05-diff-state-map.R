@@ -25,7 +25,7 @@ options(scipen = 999)
 
 # ----- Step 1: Source helper functions ----- #
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
 load("data/helpers/cpuma-state-cross.rda") # Crosswalks CPUMA0010 to state
 

@@ -21,7 +21,7 @@ library("duckdb")
 library("scales")
 library("forcats")
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 
 # ----- Step 1: Define functions -----
 source("src/utils/aggregation-tools.R")  # tabulate_summary()
@@ -87,9 +87,28 @@ fig02 <- plot_year_subgroup_bars(
 
 fig02
 
-# ----- Step 4: Save plots ----- #
+# ----- Step 3: Make wide version of data for CSV ----- #
+fig02_wide <- fig02_data |>
+  select(subgroup, year, is_hoh) |>
+  pivot_wider(
+    names_from = year,
+    values_from = is_hoh,
+    names_prefix = "headship_rate_"
+  ) |>
+  arrange(subgroup)
+
+# Optional: inspect
+print(fig02_wide)
+
+# ----- Step 4: Save ----- #
 ggsave(
   "output/figures/fig02-headship-age-year-bars.jpeg",
   plot = fig02,
   width = 3000, height = 2000, units = "px", dpi = 300
 )
+
+write.csv(
+  fig02_wide, 
+  "output/figure-data/fig02-headship-age-year-bars.csv", 
+  row.names = FALSE
+  )

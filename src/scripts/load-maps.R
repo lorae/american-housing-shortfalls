@@ -35,7 +35,7 @@ download.file(
 unzip("data/shapefiles/ipums_cpuma0010.zip", exdir = "data/shapefiles/ipums_cpuma0010")
 cpuma_sf_raw <- st_read("data/shapefiles/ipums_cpuma0010/ipums_cpuma0010.shp")
 
-# ----- Step 1: Define helper functions ----- #
+# ----- Step 2: Define helper functions ----- #
 # Creates a 2x2 matrix representing the rotation transformation relative to angle
 # a
 rot <- function(a) {
@@ -57,7 +57,7 @@ transform_state <- function(
   state %>% st_set_geometry(rotated_geom) %>% st_set_crs(st_crs(df))
 }
 
-# ----- Step 2: Create the state shapefile ----- #
+# ----- Step 3: Create the state shapefile ----- #
 # Load shapefiles
 state_sf <- state_sf_raw |>
   rename(
@@ -78,7 +78,7 @@ state_sf_final <- state_sf %>%
   filter(!STATEFIP %in% c("02", "15")) |>
   bind_rows(alaska, hawaii)
 
-# ----- Step 3: Create the CPUMA shapefile ----- #
+# ----- Step 4: Create the CPUMA shapefile ----- #
 cpuma_sf <- cpuma_sf_raw |>
   filter(!STATEFIP %in% c('60', '64', '66', '68', '69', '70', '72', '78')) |># Remove excluded states, like Puerto Rico
   st_transform(crs = "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs") |>
@@ -93,10 +93,10 @@ cpuma_sf_final <- cpuma_sf |>
   filter(!STATEFIP %in% c("02", "15")) |>
   bind_rows(alaska_cpuma, hawaii_cpuma)
 
+# ----- Step 5: Create a CPUMA-state crosswalk file ----- #
+cpuma_state_cross <- cpuma_sf_raw |> st_drop_geometry()
+
 # ----- Step 4: Save ----- #
 saveRDS(cpuma_sf_final, "throughput/cpuma_shapefiles.rds")
 saveRDS(state_sf_final, "throughput/state_shapefiles.rds")
-
-# Save a crosswalk file
-cpuma_state_cross <- cpuma_sf_raw |> st_drop_geometry()
-save(cpuma_state_cross, file = "data/helpers/cpuma-state-cross.rda")
+saveRDS(cpuma_state_cross, "data/helpers/cpuma-state-cross.rds")

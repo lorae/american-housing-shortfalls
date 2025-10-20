@@ -6,10 +6,13 @@ tests/testthat/test-create-benchmark-sample/*
 !tests/testthat/test-create-benchmark-sample/.gitkeep
 
 # Cache and throughput directories (very large regression results + survey design 
-# objects)
+# objects) but ensure the directory structure is preserved for replication code.
 cache/*
 throughput/*
 throughput/
+!cache/.gitkeep
+!throughput/.gitkeep
+!slurm-logs/.gitkeep
 
 # Current SLURM logs
 slurm-logs/*
@@ -17,14 +20,6 @@ slurm-logs/*
 # old SLURM jobs regarding reg00 containing file patsh and email addresses, but kept
 # (as of Aug 2025) as reference until fully deprecated
 hidden-jobs/
-
-
-# Keep .gitkeep marker files in these folders to ensure the directory structure
-# is preserved for replication code, even though their contents are ignored (because
-# of very large file size)
-!cache/.gitkeep
-!throughput/.gitkeep
-!slurm-logs/.gitkeep
 
 # R environment local files
 .Rprofile

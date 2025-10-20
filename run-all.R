@@ -5,9 +5,9 @@
 # Read in raw data, process to clean data
 source("src/scripts/import-ipums.R")
 source("src/scripts/process-ipums.R")
+source("src/scripts/load-maps.R")
 
 # Generate helper data / analyze data
-# TODO: source whatever file generates CPUMA and state shapefiles
 # TODO: source Kitagawa code
 
 # Figures

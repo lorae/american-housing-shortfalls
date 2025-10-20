@@ -11,6 +11,26 @@
 # - throughput/state_shapefiles.rds
 # 
 
+# ----- Step 0: Config ----- #
+
+
+# ----- Step 1: Download data ----- #
+
+### NOAA State Shapefiles
+download.file(
+  url = "https://www.weather.gov/source/gis/Shapefiles/County/s_18mr25.zip",
+  destfile = "data/shapefiles/us_states_2025.zip",
+  mode = "wb"
+)
+
+# Unzip
+unzip("data/shapefiles/us_states_2025.zip", exdir = "data/shapefiles/us_states_2025")
+
+# Read in
+state_sf_raw <- st_read("data/shapefiles/us_states_2025/s_18mr25.shp")
+
+### IPUMS CPUMA0010 Boundaries
+
 # ----- Step 1: Define helper functions ----- #
 # Creates a 2x2 matrix representing the rotation transformation relative to angle
 # a
@@ -35,7 +55,7 @@ transform_state <- function(
 
 # ----- Step 2: Create the state shapefile ----- #
 # Load shapefiles
-state_sf <- st_read("data/s_05mr24/s_05mr24.shp") |>
+state_sf <- state_sf_raw |>
   rename(
     STATEFIP = FIPS,
     State = NAME,

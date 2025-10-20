@@ -17,7 +17,7 @@ source("src/figures/fig04-observed-counterfactual-bars.R")
 # TODO: figure 5
 source("src/figures/accessory-fig06-hhsize-age-2per-line.R")
 
-# McClure-Schwartz (2024) replication
+# McClure-Schwartz (2024) replication 
 source("src/scripts/mcclure-schwartz-replication-state-surplus.R")
 
 # Fast facts

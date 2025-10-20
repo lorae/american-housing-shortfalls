@@ -319,7 +319,11 @@ headship_state_cf |> filter(State == "Nebraska") |> pull(diff)
 headship_state_cf |> filter(State == "Nebraska") |> pull(expected_2019)
 
 # The five places with the largest gaps between observed values and expectations 
-# were DC, Florida, Alabama, New Mexico, and California.
+# were DC, Florida, Alabama, New Mexico, and California. With the exception of New 
+# Mexico, each of these sites saw a decline in headship rates over time, whereas 
+# the counterfactual prediction was of a large increase.
+headship_state_cf |> slice_max(-diff, n = 5)
+# TODO: diff in this table should actaully be 2000 - 2019, not 2019 - 2000 (which it currently is)
 
 # what is this? vvv
 

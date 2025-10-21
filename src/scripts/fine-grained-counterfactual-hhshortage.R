@@ -17,10 +17,10 @@ options(scipen = 999)
 
 # ----- Step 1: Source helper functions ----- #
 
-devtools::load_all("../dataduck")
+devtools::load_all("../demographr")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
-load("data/helpers/cpuma-state-cross.rda") # Crosswalks CPUMA0010 to state
-load("data/helpers/state-pop-growth.rda") # May be deprecated
+cpuma_state_cross <- readRDS("data/helpers/cpuma-state-cross.rds") # Crosswalks CPUMA0010 to state
+
 
 # ----- Step 2: Import data ----- #
 hhsize_cpuma_summary <- readRDS("throughput/fine-grained-hhsize-diff-cpuma.rds")
@@ -67,6 +67,7 @@ hhsize_cpuma <- hhsize_cpuma_summary |>
     white_hhsize = white_hhsize_2019_overall,
     white_diff = observed_2019 - white_hhsize
     )
+
 # nubmer of additional hhs needed to match white hh sizes
 hhsize_cpuma |> filter(white_diff > 0) |>
   mutate(

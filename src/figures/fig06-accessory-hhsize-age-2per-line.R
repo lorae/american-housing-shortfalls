@@ -75,14 +75,14 @@ fig06
 
 # ----- Step 4: Save  ----- #
 ggsave(
-  "output/figures/accessory-fig06-hhsize-age-2per-line.jpeg",
+  "output/figures/fig06-accessory-hhsize-age-2per-line.jpeg",
   plot = fig06,
   width = 3000, height = 2000, units = "px", dpi = 300
 )
 
 write_csv(
   hhsize_age,
-  "output/figure-data/accessory-fig06-hhsize-age-2per-line.csv"
+  "output/figure-data/fig06-accessory-hhsize-age-2per-line.csv"
 )
 
 

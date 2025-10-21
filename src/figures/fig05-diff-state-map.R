@@ -3,14 +3,8 @@
 # This script produces choropleth maps of differences between actual and expected
 # household size and headship rates by state in 2019
 #
-# Inputs:
-#   - data/db/ipums.duckdb
-#   - src/utils/counterfactual-tools.R
-#   - TODO name the other througput files / helper files and also add those scripts
-# Outputs:
-#   - TBD
 
-# ----- Step 0: Load required packages ----- #
+# ----- Step 0: Config ----- #
 library("dplyr")
 library("duckdb")
 library("stringr")
@@ -21,22 +15,20 @@ library("readxl")
 library("ggplot2")
 library("base64enc")
 library("sf")
+library("readr")
 options(scipen = 999)
-
-# ----- Step 1: Source helper functions ----- #
 
 devtools::load_all("../demographr")
 source("src/utils/counterfactual-tools.R") # Includes function for counterfactual calculation
-load("data/helpers/cpuma-state-cross.rda") # Crosswalks CPUMA0010 to state
 
-# ----- Step 2: Import data ----- #
+# ----- Step 1: Import data ----- #
 state_sf <- readRDS("throughput/state_shapefiles.rds") # One shapefile row per state
 hhsize_state_summary <- readRDS("throughput/fine-grained-hhsize-diff-state.rds")
 headship_state_summary <- readRDS("throughput/fine-grained-headship-diff-state.rds")
 cf_summaries <- readRDS("throughput/fine-grained-cf-summaries.rds")
+cpuma_state_cross <- readRDS("data/helpers/cpuma-state-cross.rds") # Crosswalks CPUMA0010 to state
 
-# ----- Step 4: Map ----- #
-# --- fig05a: hhsize diff by state ----
+# ----- Step 2: Map Household Size Difference by State (Fig05A) ----- #
 state_sf_hhsize <- state_sf |>
   left_join(hhsize_state_summary, by = "State")
 
@@ -50,11 +42,10 @@ fig05a <- ggplot(state_sf_hhsize) +
   theme_void()
 fig05a
 
-# --- fig05b: headship diff by state --- 
+# ----- Step 3: Map Headship Difference by State (Fig05B) ----- #
 state_sf_headship <- state_sf |>
   left_join(headship_state_summary, by = "State")
 
-# Choropleth map (color version)
 fig05b <- ggplot(state_sf_headship |> filter(State != "District of Columbia")) + 
   geom_sf(aes(geometry = geometry, fill = diff), color = "black", size = 0.5) +
   scale_fill_gradient2(
@@ -65,7 +56,9 @@ fig05b <- ggplot(state_sf_headship |> filter(State != "District of Columbia")) +
   theme_void()
 fig05b
 
-# ----- Step 5: Save output ----- #
-# Figures
+# ----- Step 4: Save ----- #
 ggsave("output/figures/fig05a-hhsize-diff-state-map.jpeg", plot = fig05a, width = 6.5, height = 4, dpi = 300)
 ggsave("output/figures/fig05b-headship-diff-state-map.jpeg", plot = fig05b, width = 6.5, height = 4, dpi = 300)
+
+write_csv(hhsize_state_summary, "output/figure-data/fig05a-hhsize-diff-state-map.csv")
+write_csv(headship_state_summary, "output/figure-data/fig05b-headship-diff-state-map.csv")

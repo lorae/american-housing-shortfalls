@@ -24,7 +24,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     cd american-housing-shortfalls
     ```
 
-3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys)
+3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys) and [Census API key](https://api.census.gov/data/key_signup.html)
 
     ```bash
     cp example.Renviron .Renviron
@@ -157,67 +157,14 @@ Some scripts in this repository (e.g., for the McClure-Schwartz replication) use
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
 
 
-# Running the code
 
-
-
-# Running SLURM jobs with environment variables
-To keep sensitive or system-specific values (like an email address or scratch directory path) outside of version control, we use a `.env` file to define environment variables, and reference them in the job scripts.
-
-1. **Create a .env file**
-    This repository includes a tracked example.env file which you can copy and fill with your information. To use it:
-  
-    ```bash
-    cp example.env .env
-    ```
-  
-    Then open `.env` in your preferred IDE / text editor and fill in your information. For example:
-  
-    ```bash
-    SLURM_MAIL_USER=me@nowhere.com
-    PROJECT_WORKDIR=your/file/path/to/household-size-demographics
-    ```
-    Do not commit your `.env` file. It should be automatically ignored, as it is listed in `.gitignore.` 
-
-2. **Source the environment before submitting jobs**
-    Before running a job, load the environment variables into your shell:
-    
-    ```bash
-    source .env
-    ```
-    
-    Then submit the SLURM job as usual. You can run this test script to confirm your `.env` is configured correctly. Assuming it is, logs should show up in the `slurm-logs` directory:
-    
-    ```bash
-    sbatch your/file/path/to/household-size-demographics/jobs/test-env.sh
-    ```
-    
-    The job script references your environment variables, ensuring your email address and file paths are never hardcoded into the script itself.
-
-----
-# KOB decompsition
-See details here: https://lorae.github.io/household-size-demographics/kob-decomposition.html
-
-
-----
 # File structure
 
+TODO
 
-----
 # Additional notes / Conventions
+
 copy info about _db or _tb suffix on varnames
 
 In general, varnames that are gneerated in this project are all lowercase. varnames from original ipums are uppercase. TODO: formalize this across the code.
 
----
-# TODOS / musings
-
-TODO: transfer over lookup tables!!!
-
-TODO: add instructions on setting up the environment for the first time and installing all the packages using the renv.lock file. Note that the last time I installed `duckdb` on Della, it took 1 hour 4 minutes, so give the user a fair warning about that.
-
-TODO: should the detailed headers on these scripts be fully supplanted by the contents of this README?
-
-TODO: I'm going to have to write more on dataduck, potentially rename the package and come up with a mroe strategic vision for it and how it can be used in conjunction with these 3(!) related projects.
-
-Trigger review on CodeRabbit

@@ -372,7 +372,8 @@ and clone both required repos side by side</p>
 git clone https://github.com/lorae/demographr demographr</code></pre></li>
 <li><p>Enter the main project</p>
 <pre class="bash"><code>cd american-housing-shortfalls</code></pre></li>
-<li><p>Copy the environment file and edit it with your own <a href="https://account.ipums.org/api_keys">IPUMS API key</a></p>
+<li><p>Copy the environment file and edit it with your own <a href="https://account.ipums.org/api_keys">IPUMS API key</a> and <a href="https://api.census.gov/data/key_signup.html">Census API
+key</a></p>
 <pre class="bash"><code>cp example.Renviron .Renviron
 # (Windows PowerShell: Copy-Item example.Renviron .Renviron)
 # IMPORTANT: open .Renviron and replace &quot;your_ipums_api_key&quot; with your actual key</code></pre></li>
@@ -420,11 +421,11 @@ hour.</p>
 installed. Run the following in your R console:</p>
 <pre class="r"><code>install.packages(&quot;renv&quot;) # Safe to run, even if you&#39;re not sure if you already have renv</code></pre>
 <pre class="r"><code>library(&quot;renv&quot;)</code></pre>
-<p>Then initialize the project:</p>
-<pre class="r"><code>renv::init()</code></pre>
-<p>At this point, a message will print into the console informing you
-that this project already has a lockfile. Select option
-<code>1: Restore the project from the lockfile</code>.</p></li>
+<p>Then load all the packages needed for the project:</p>
+<pre class="r"><code>renv::activate()
+renv::restore()</code></pre>
+<p>When it asks if you want to proceed, type <code>y</code> for
+“yes”.</p></li>
 </ol>
 </div>
 <div id="part-b-download-raw-data-from-ipums-usa" class="section level3">
@@ -495,53 +496,9 @@ API key in the sample file.</p></li>
 </ol>
 </div>
 </div>
-<div id="running-the-code" class="section level1">
-<h1>Running the code</h1>
-</div>
-<div id="running-slurm-jobs-with-environment-variables" class="section level1">
-<h1>Running SLURM jobs with environment variables</h1>
-<p>To keep sensitive or system-specific values (like an email address or
-scratch directory path) outside of version control, we use a
-<code>.env</code> file to define environment variables, and reference
-them in the job scripts.</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Create a .env file</strong> This repository includes a
-tracked example.env file which you can copy and fill with your
-information. To use it:</p>
-<pre class="bash"><code>cp example.env .env</code></pre>
-<p>Then open <code>.env</code> in your preferred IDE / text editor and
-fill in your information. For example:</p>
-<pre class="bash"><code>SLURM_MAIL_USER=me@nowhere.com
-PROJECT_WORKDIR=your/file/path/to/household-size-demographics</code></pre>
-<p>Do not commit your <code>.env</code> file. It should be automatically
-ignored, as it is listed in <code>.gitignore.</code></p></li>
-<li><p><strong>Source the environment before submitting jobs</strong>
-Before running a job, load the environment variables into your
-shell:</p>
-<pre class="bash"><code>source .env</code></pre>
-<p>Then submit the SLURM job as usual. You can run this test script to
-confirm your <code>.env</code> is configured correctly. Assuming it is,
-logs should show up in the <code>slurm-logs</code> directory:</p>
-<pre class="bash"><code>sbatch your/file/path/to/household-size-demographics/jobs/test-env.sh</code></pre>
-<p>The job script references your environment variables, ensuring your
-email address and file paths are never hardcoded into the script
-itself.</p></li>
-</ol>
-<table style="width:7%;">
-<colgroup>
-<col width="6%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th># KOB decompsition See details here: <a href="https://lorae.github.io/household-size-demographics/kob-decomposition.html" class="uri">https://lorae.github.io/household-size-demographics/kob-decomposition.html</a></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td># File structure</td>
-</tr>
-</tbody>
-</table>
+<div id="file-structure" class="section level1">
+<h1>File structure</h1>
+<p>TODO</p>
 </div>
 <div id="additional-notes-conventions" class="section level1">
 <h1>Additional notes / Conventions</h1>
@@ -549,20 +506,6 @@ itself.</p></li>
 <p>In general, varnames that are gneerated in this project are all
 lowercase. varnames from original ipums are uppercase. TODO: formalize
 this across the code.</p>
-<hr />
-</div>
-<div id="todos-musings" class="section level1">
-<h1>TODOS / musings</h1>
-<p>TODO: transfer over lookup tables!!!</p>
-<p>TODO: add instructions on setting up the environment for the first
-time and installing all the packages using the renv.lock file. Note that
-the last time I installed <code>duckdb</code> on Della, it took 1 hour 4
-minutes, so give the user a fair warning about that.</p>
-<p>TODO: should the detailed headers on these scripts be fully
-supplanted by the contents of this README?</p>
-<p>TODO: I’m going to have to write more on dataduck, potentially rename
-the package and come up with a mroe strategic vision for it and how it
-can be used in conjunction with these 3(!) related projects.</p>
 </div>
 
 

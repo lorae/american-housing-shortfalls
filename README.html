@@ -428,14 +428,17 @@ renv::restore()</code></pre>
 “yes”.</p></li>
 </ol>
 </div>
-<div id="part-b-download-raw-data-from-ipums-usa" class="section level3">
-<h3>Part B: Download raw data from IPUMS USA</h3>
+<div id="part-b-initialize-project-for-download-from-ipums-usa-and-the-u.s.-census" class="section level3">
+<h3>Part B: Initialize project for download from IPUMS USA and the U.S.
+Census</h3>
 <p>The <a href="https://www.ipums.org/about/terms">IPUMS Terms of
 Use</a> precludes us from directly sharing the raw microdata extract,
 however, the data used in this analysis is freely available and simple
-to download after setting up an IPUMS USA account. In this step, we
-explain this process and how to “order” a data extract that exactly
-matches the one used in this study.</p>
+to download after setting up your API key. A section of our manuscript
+also references results from the McClure-Schwartz analysis. We produced
+these numbers in
+<code>src/scripts/mcclure-schwartz-replication-state-surplus.R</code>
+and they require a Census API key.</p>
 <ol start="4" style="list-style-type: decimal">
 <li><p><strong>Copy the file</strong> <code>example.Renviron</code> to a
 new file named <code>.Renviron</code> in the project root directory. You
@@ -448,11 +451,13 @@ can do this manually or use the following terminal commands:</p>
 already have one, set up a free account on <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a>. Use the new
 account to login to the <a href="https://account.ipums.org/api_keys">IPUMS API Key</a> webpage.
 Copy your API key from this webpage.</p></li>
+<li><p>Set up your <a href="https://api.census.gov/data/key_signup.html">Census API key</a>.
+Copy your API key from this website</p></li>
 <li><p><strong>Open <code>.Renviron</code></strong> and replace
-<code>your_ipums_api_key</code> with your actual key. Do not include
-quotation marks. R will automatically load <code>.Renviron</code> when
-you start a new session. This keeps your API key private and separate
-from the codebase.</p>
+<code>your_ipums_api_key</code> and <code>your_census_api_key</code>
+with your actual keys. Do not include quotation marks. R will
+automatically load <code>.Renviron</code> when you start a new session.
+This keeps your API key private and separate from the codebase.</p>
 <p>🛑 Important: <code>.Renviron</code> is listed in
 <code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
 — but <code>example.Renviron</code> is tracked, so do not put your
@@ -461,39 +466,11 @@ actual API key in the example file.</p></li>
 </div>
 <div id="part-c-run-the-analysis-scripts" class="section level3">
 <h3>Part C: Run the analysis scripts</h3>
-<p>The code for this project is stored in the <code>src</code> folder.
-Code is divided into two main directories: <code>scripts</code> and
-<code>utils</code>. The <code>scripts</code> directory contains
-executable code which runs the analyses. The <code>utils</code> foler
-contains necessary accessory modules, typically in the form of
-functions, that are sourced when certain scripts run. These functions
-are separated due to their complexity. Code underlying them can be
-inspected more directly when they are isolated, and they are subject to
-a battery of unit tests.</p>
-</div>
-</div>
-<div id="api-setup-census-data-access" class="section level2">
-<h2>API Setup: Census Data Access</h2>
-<p>Some scripts in this repository (e.g., for the McClure-Schwartz
-replication) use the <code>tidycensus</code> package, which requires a
-Census API key. To set this up:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Request a free Census API key</strong><br />
-<a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a></p></li>
-<li><p><strong>Copy the file</strong> <code>sample.Renviron</code> to a
-new file named <code>.Renviron</code> in the project root directory.</p>
-<p>On macOS/Linux: <code>bash  cp sample.Renviron .Renviron</code></p>
-<p>Windows: <code>cmd  copy sample.Renviron .Renviron</code></p></li>
-<li><p><strong>Open <code>.Renviron</code></strong> and replace
-<code>your_api_key</code> with your actual key. Do not include quotation
-marks. R will automatically load <code>.Renviron</code> when you start a
-new session. This keeps your API key private and separate from the
-codebase.</p>
-<p>🛑 Important: <code>.Renviron</code> is listed in
-<code>.gitignore</code>, so it will not be tracked or uploaded to GitHub
-— but <code>sample.Renviron</code> is tracked, so do not put your actual
-API key in the sample file.</p></li>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Source <code>run-all.R</code>.</p>
+<pre class="r"><code>source(&quot;run-all.R&quot;)</code></pre></li>
 </ol>
+</div>
 </div>
 </div>
 <div id="file-structure" class="section level1">

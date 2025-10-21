@@ -97,11 +97,13 @@ an hour.
     When it asks if you want to proceed, type `y` for "yes".
     
 
-### Part B: Download raw data from IPUMS USA
+### Part B: Initialize project for download from IPUMS USA and the U.S. Census
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
-the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
-we explain this process and how to "order" a data extract that exactly matches the one used in this study.
+the data used in this analysis is freely available and simple to download after setting up your API key.
+A section of our manuscript also references results from the McClure-Schwartz analysis. We produced
+these numbers in `src/scripts/mcclure-schwartz-replication-state-surplus.R` and they require a Census API key. 
+
 
 4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
 You can do this manually or use the following terminal commands:
@@ -122,7 +124,9 @@ You can do this manually or use the following terminal commands:
 [IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
 [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
 
-6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
+6. Set up your [Census API key](https://api.census.gov/data/key_signup.html). Copy your API key from this website
+
+7. **Open `.Renviron`** and replace `your_ipums_api_key` and `your_census_api_key` with your actual keys.  Do not include quotation marks. 
 R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
 from the codebase.
 
@@ -131,32 +135,11 @@ from the codebase.
 
 ### Part C: Run the analysis scripts
 
-The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` foler contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
+8. Source `run-all.R`.
 
-
-## API Setup: Census Data Access
-
-Some scripts in this repository (e.g., for the McClure-Schwartz replication) use the `tidycensus` package, which requires a Census API key. To set this up:
-
-1. **Request a free Census API key**  
-   https://api.census.gov/data/key_signup.html
-
-2. **Copy the file** `sample.Renviron` to a new file named `.Renviron` in the project root directory.
-
-    On macOS/Linux:
-    ```bash
-    cp sample.Renviron .Renviron
+    ```r
+    source("run-all.R")
     ```
-    
-    Windows:
-    ```cmd
-    copy sample.Renviron .Renviron
-    ```
-3. **Open `.Renviron`** and replace `your_api_key` with your actual key.  Do not include quotation marks. R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate from the codebase.
-
-    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
-
-
 
 # File structure
 

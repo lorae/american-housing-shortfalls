@@ -1,0 +1,73 @@
+# .coderabbit.yml
+# CodeRabbit configuration for american-housing-shortfalls
+# Focus: reproducible research, R pipeline structure, documentation quality
+
+review:
+  enabled: true
+  scope: full                 # analyze entire repo, not just diffs
+  language: en
+
+  focus:
+    - code_quality
+    - reproducibility
+    - documentation
+    - maintainability
+    - statistical_clarity
+    - architecture
+
+  include:
+    - "*.R"
+    - "*.Rmd"
+    - "*.qmd"
+    - "*.Rproj"
+    - "*.yml"
+    - "*.yaml"
+    - "*.md"
+    - "README*"
+    - "throughput/"
+    - "src/"
+    - "scripts/"
+    - "figures/"
+  exclude:
+    - "data/"
+    - ".venv/"
+    - ".Rproj.user/"
+    - "renv/library/"
+    - "archive/"
+    - "*.csv"
+    - "*.xlsx"
+    - "*.png"
+    - "*.rds"
+
+  summary:
+    enabled: true
+    format: markdown
+    sections:
+      - Overall Summary
+      - Code Organization
+      - Reproducibility & Environment
+      - Documentation & Comments
+      - Statistical Rigor
+      - Strengths
+      - Weaknesses
+      - Recommendations
+
+  suggestions:
+    enabled: true
+    max_per_file: 8
+
+  style_guides:
+    - tidyverse
+    - baseR_best_practices
+
+  report:
+    enabled: true
+    title: "AI Review: american-housing-shortfalls"
+    include_scores: true
+
+  reproducibility_checks:
+    - check_for_seed_usage: true
+    - check_for_renv_lockfile: true
+    - check_for_relative_paths: true
+    - check_for_script_ordering: true
+    - check_for_external_data_calls: true

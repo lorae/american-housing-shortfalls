@@ -219,3 +219,5 @@ TODO: add instructions on setting up the environment for the first time and inst
 TODO: should the detailed headers on these scripts be fully supplanted by the contents of this README?
 
 TODO: I'm going to have to write more on dataduck, potentially rename the package and come up with a mroe strategic vision for it and how it can be used in conjunction with these 3(!) related projects.
+
+Trigger review on CodeRabbit

@@ -20,5 +20,5 @@ source("src/figures/accessory-fig06-hhsize-age-2per-line.R")
 # McClure-Schwartz (2024) replication 
 source("src/scripts/mcclure-schwartz-replication-state-surplus.R")
 
-# Fast facts
-source("src/scripts/fast-facts-v2.R")
+# Manuscript statistics
+source("src/scripts/inline-statistics.R")

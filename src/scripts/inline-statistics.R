@@ -1,7 +1,5 @@
-# The purpose of this script is to provide replicable code which backs the 
-# in-line "fast facts" fast facts provided in the manuscript
-#
-# Last modified October 2025
+# The purpose of this script is to illustrate calculations which substantiate the
+# in-line statistics provided in the manuscript.
 #
 # ----- Step 0: Load required packages ----- #
 library("dplyr")
@@ -398,7 +396,6 @@ headship_cf_cpuma |>
 
 # ...between 8.358 million additional households (minimum based on average household 
 # size)
-# Pull the average number of people in a white person's home in 2019
 white_hhsize_2019 <- crosstab_mean(
   data = ipums_db |> filter(GQ %in% c(0,1,2)) |> filter(YEAR == 2019),
   value = "NUMPREC",

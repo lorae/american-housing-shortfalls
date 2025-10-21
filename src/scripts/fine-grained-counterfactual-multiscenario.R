@@ -1,15 +1,12 @@
-# fine-grained-counterfactual-multiscenario.R
+# src/scripts/counterfactual-multiscenario.R
 #
 # The purpose of this script is to calculate what - after controlling for demographic 
 # factors - average person-level household size would be in 2019 compared to 2000 
-# values. This is the most updated version of the script, but others are currently
-# being kept for reference.
+# values. 
 # 
 # Rather than using all the demographic features at once, it layers them on one at
 # a time. This allows us to conclude what happens with the introduction of each 
 # individual layer and how robust the results are to various controls.
-#
-# These layered results are saved in .rda files that are placed in WHERE?
 #
 # Inputs:
 #   - data/db/ipums.duckdb

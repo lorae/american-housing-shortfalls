@@ -24,7 +24,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     cd american-housing-shortfalls
     ```
 
-3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys)
+3. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys) and [Census API key](https://api.census.gov/data/key_signup.html)
 
     ```bash
     cp example.Renviron .Renviron
@@ -97,11 +97,13 @@ an hour.
     When it asks if you want to proceed, type `y` for "yes".
     
 
-### Part B: Download raw data from IPUMS USA
+### Part B: Initialize project for download from IPUMS USA and the U.S. Census
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
-the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
-we explain this process and how to "order" a data extract that exactly matches the one used in this study.
+the data used in this analysis is freely available and simple to download after setting up your API key.
+A section of our manuscript also references results from the McClure-Schwartz analysis. We produced
+these numbers in `src/scripts/mcclure-schwartz-replication-state-surplus.R` and they require a Census API key. 
+
 
 4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
 You can do this manually or use the following terminal commands:
@@ -122,7 +124,9 @@ You can do this manually or use the following terminal commands:
 [IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
 [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
 
-6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
+6. Set up your [Census API key](https://api.census.gov/data/key_signup.html). Copy your API key from this website
+
+7. **Open `.Renviron`** and replace `your_ipums_api_key` and `your_census_api_key` with your actual keys.  Do not include quotation marks. 
 R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
 from the codebase.
 
@@ -131,93 +135,19 @@ from the codebase.
 
 ### Part C: Run the analysis scripts
 
-The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` foler contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
+8. Source `run-all.R`.
 
-
-## API Setup: Census Data Access
-
-Some scripts in this repository (e.g., for the McClure-Schwartz replication) use the `tidycensus` package, which requires a Census API key. To set this up:
-
-1. **Request a free Census API key**  
-   https://api.census.gov/data/key_signup.html
-
-2. **Copy the file** `sample.Renviron` to a new file named `.Renviron` in the project root directory.
-
-    On macOS/Linux:
-    ```bash
-    cp sample.Renviron .Renviron
+    ```r
+    source("run-all.R")
     ```
-    
-    Windows:
-    ```cmd
-    copy sample.Renviron .Renviron
-    ```
-3. **Open `.Renviron`** and replace `your_api_key` with your actual key.  Do not include quotation marks. R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate from the codebase.
 
-    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `sample.Renviron` is tracked, so do not put your actual API key in the sample file.
-
-
-# Running the code
-
-
-
-# Running SLURM jobs with environment variables
-To keep sensitive or system-specific values (like an email address or scratch directory path) outside of version control, we use a `.env` file to define environment variables, and reference them in the job scripts.
-
-1. **Create a .env file**
-    This repository includes a tracked example.env file which you can copy and fill with your information. To use it:
-  
-    ```bash
-    cp example.env .env
-    ```
-  
-    Then open `.env` in your preferred IDE / text editor and fill in your information. For example:
-  
-    ```bash
-    SLURM_MAIL_USER=me@nowhere.com
-    PROJECT_WORKDIR=your/file/path/to/household-size-demographics
-    ```
-    Do not commit your `.env` file. It should be automatically ignored, as it is listed in `.gitignore.` 
-
-2. **Source the environment before submitting jobs**
-    Before running a job, load the environment variables into your shell:
-    
-    ```bash
-    source .env
-    ```
-    
-    Then submit the SLURM job as usual. You can run this test script to confirm your `.env` is configured correctly. Assuming it is, logs should show up in the `slurm-logs` directory:
-    
-    ```bash
-    sbatch your/file/path/to/household-size-demographics/jobs/test-env.sh
-    ```
-    
-    The job script references your environment variables, ensuring your email address and file paths are never hardcoded into the script itself.
-
-----
-# KOB decompsition
-See details here: https://lorae.github.io/household-size-demographics/kob-decomposition.html
-
-
-----
 # File structure
 
+TODO
 
-----
 # Additional notes / Conventions
+
 copy info about _db or _tb suffix on varnames
 
 In general, varnames that are gneerated in this project are all lowercase. varnames from original ipums are uppercase. TODO: formalize this across the code.
 
----
-# TODOS / musings
-
-TODO: transfer over lookup tables!!!
-
-TODO: add instructions on setting up the environment for the first time and installing all the packages using the renv.lock file. Note that the last time I installed `duckdb` on Della, it took 1 hour 4 minutes, so give the user a fair warning about that.
-
-TODO: should the detailed headers on these scripts be fully supplanted by the contents of this README?
-
-TODO: I'm going to have to write more on dataduck, potentially rename the package and come up with a mroe strategic vision for it and how it can be used in conjunction with these 3(!) related projects.
-
-Trigger review on CodeRabbit

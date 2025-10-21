@@ -1,14 +1,7 @@
-# src/scripts/fine-grained-counterfactual-regional.R
+# src/scripts/counterfactual-regional.R
 #
-# The purpose of this script is to produce throughput data used in fine-grained
-# chart outputs: fine-grained-fig02, -fig03, -fig04
-#
-# Inputs:
-# - TODO
-#
-# Outputs:
-# - TODO
-
+# The purpose of this script is to produce counterfactual results that can be aggregated
+# up by geography or other attribute.
 
 # ----- Step 0: Config ----- #
 # TODO: remove unneeded imports

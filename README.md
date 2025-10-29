@@ -5,7 +5,7 @@ Full-text article: https://www.tandfonline.com/doi/full/10.1080/10511482.2025.25
 This repository contains the full replication code for [*Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
 by Peter Hepburn and Lorae Stojanovic (2025)](https://www.tandfonline.com/doi/full/10.1080/10511482.2025.2570727). We explain in detail how to replicate the analysis on your personal work environment.
 
-## 📊 Key Findings
+## 💡 Key Findings
 
 Between 2000 and 2019, the average number of people per U.S. household declined modestly—from 3.47 to 3.37, a 3% decrease. At first glance, this seems to contradict claims of a worsening housing shortage: if household sizes are shrinking, doesn't that imply housing is becoming less scarce?
 
@@ -168,13 +168,6 @@ from the codebase.
     source("run-all.R")
     ```
 
-# File structure
+## 🧾 How to Cite
 
-TODO
-
-# Additional notes / Conventions
-
-copy info about _db or _tb suffix on varnames
-
-In general, varnames that are gneerated in this project are all lowercase. varnames from original ipums are uppercase. TODO: formalize this across the code.
-
+Hepburn, P., & Stojanovic, L. (2025). Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls. Housing Policy Debate, 1–15. https://doi.org/10.1080/10511482.2025.2570727

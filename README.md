@@ -19,8 +19,8 @@ We take a demographic decomposition approach proposed by Galster (2024) and acco
 
 ![Figure 4: Observed vs. Counterfactual Household Size and Headship Rates](https://github.com/lorae/american-housing-shortfalls/blob/main/output/figures/fig04-observed-counterfactual-bars.jpeg?raw=true)
 
-- **Headship rates tell a similar story**
-  The *headship rate* is the share of peopel counted as "household head" or "person one" in the survye- typically the person who pays the rent or mortgage and serves as the household's primary financial support. For example, if one-third of women age 30-34 is counted as the "person one" in the survey data, then the headship rate among this group is 33%.
+- **Headship rates tell a similar story.**  The *headship rate* is the share of people counted as "household head" or "person one" in the survye- typically the person who pays the rent or mortgage and serves as the household's primary financial support. For example, if one-third of women age 30-34 is counted as the "person one" in the survey data, then the headship rate among this group is 33%.
+  
   Based on the same set of sociodemographic correlates, we would have expected headship rates to rise between 2000 and 2019, from 38.6% to 40.8%. Instead, they slightly *declined*, to 38.2%. This implies that, even after adjusting for population changes, Americans today form fewer independent households than in the past.
 
   

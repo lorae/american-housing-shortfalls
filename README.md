@@ -13,7 +13,7 @@ We take a demographic decomposition approach proposed by Galster (2024) and acco
 
 - **Net of demographic change, Americans live in larger households than before.** For example, the average 45-49-year-old lives in a household of 3.14 persons in the year 2000; by 2019, that had increased to 3.33. ([See Accessory Figure 6](https://github.com/lorae/american-housing-shortfalls/blob/main/output/figures/fig06-accessory-hhsize-age-2per-line.jpeg).)
 
-  We estimate these patterns using granular IPUMS microdata that classify each individual by age, gender, tenure, income, race/ehnicity, education, birthplace, and geography (Constant Public Use Microdata Area). 
+  We estimate these patterns using granular IPUMS microdata that classify each individual by age, gender, tenure, income, race/ehnicity, education, birthplace, and geography of residence. 
 
 - **Even after accounting for all these demographic changes, household size fell less than expected.** As shown in Figure 4 below, these measurable characteristics alone would have predicted a 34% *larger* decline in average household size—to 3.342—than what actually occurred.
 

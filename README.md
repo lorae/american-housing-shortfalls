@@ -1,7 +1,24 @@
+Full-text article: https://www.tandfonline.com/doi/full/10.1080/10511482.2025.2570727
+
 # 🏡 American Housing Shortfalls: Replication Package
 
-This repository contains the full replication code for *Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
-by Peter Hepburn and Lorae Stojanovic (forthcoming). We explain in detail how to replicate the analysis on your personal work environment.
+This repository contains the full replication code for [*Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
+by Peter Hepburn and Lorae Stojanovic (2025)](https://www.tandfonline.com/doi/full/10.1080/10511482.2025.2570727). We explain in detail how to replicate the analysis on your personal work environment.
+
+## ⚡ Key Findings
+
+Between 2000 and 2019, the average number of people per U.S. household declined modestly—from 3.47 to 3.37, a 3% decrease. At first glance, this seems to contradict claims of a worsening housing shortage: if household sizes are shrinking, doesn't that imply housing is becoming less scarce?
+
+We take a demographic decomposition approach proposed by Galster (2024) and account for the fact that the U.S. is (among other things) older, more educated, and more racially and ethnically diverse than in 2000. The first two shifts tend to drive down household size, while the latter has potentially mixed effects. We find that:
+
+- **Net of demographic change, Americans live in larger households than before.** For example, the average 45-49-year-old live in a household of 3.14 persons in the year 2000; by 2019, that had increased to 3.33. ([See Accessory Figure 6](https://github.com/lorae/american-housing-shortfalls/blob/main/output/figures/fig06-accessory-hhsize-age-2per-line.jpeg).)
+
+  We estimate these patterns using highlyg grandular IPUMS microdata that classify each individual by age, gender, tenure, income, race/ehnicity, education, birthplace, and geography (Constant Public Use Microdata Area). 
+
+- **Even after accounting for all these demographic changes, household size fell less than expected.** As shown in Figure 4 below, these measurable characteristics alone would have predicted a 34% *larger* decline in average household size—to 3.342—than what actually occurred.
+
+![Figure 4: Observed vs. Counterfactual Household Size and Headship Rates](https://github.com/lorae/american-housing-shortfalls/blob/main/output/figures/fig04-observed-counterfactual-bars.jpeg?raw=true)
+
 
 ## ⚡ Quick Start
 For experienced users who just want to get the project running right away. If you

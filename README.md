@@ -5,7 +5,7 @@ Full-text article: https://www.tandfonline.com/doi/full/10.1080/10511482.2025.25
 This repository contains the full replication code for [*Changes in Average Household Size and Headship Rates as Indicators of Housing Shortfalls*
 by Peter Hepburn and Lorae Stojanovic (2025)](https://www.tandfonline.com/doi/full/10.1080/10511482.2025.2570727). We explain in detail how to replicate the analysis on your personal work environment.
 
-## ⚡ Key Findings
+## 📊 Key Findings
 
 Between 2000 and 2019, the average number of people per U.S. household declined modestly—from 3.47 to 3.37, a 3% decrease. At first glance, this seems to contradict claims of a worsening housing shortage: if household sizes are shrinking, doesn't that imply housing is becoming less scarce?
 
@@ -17,14 +17,20 @@ We take a demographic decomposition approach proposed by Galster (2024) and acco
 
 - **Even after accounting for all these demographic changes, household size fell less than expected.** As shown in Figure 4 below, these measurable characteristics alone would have predicted a 34% *larger* decline in average household size—to 3.342—than what actually occurred.
 
-![Figure 4: Observed vs. Counterfactual Household Size and Headship Rates](https://github.com/lorae/american-housing-shortfalls/blob/main/output/figures/fig04-observed-counterfactual-bars.jpeg?raw=true)
+  **Figure 4: Observed vs. Counterfactual Household Size and Headship Rates**
+  ![Figure 4: Observed vs. Counterfactual Household Size and Headship Rates](https://github.com/lorae/american-housing-shortfalls/blob/main/output/figures/fig04-observed-counterfactual-bars.jpeg?raw=true)
 
 - **Headship rates tell a similar story.**  The *headship rate* is the share of people counted as "household head" or "person one" in the survye- typically the person who pays the rent or mortgage and serves as the household's primary financial support. For example, if one-third of women age 30-34 is counted as the "person one" in the survey data, then the headship rate among this group is 33%.
   
   Based on the same set of sociodemographic correlates, we would have expected headship rates to rise between 2000 and 2019, from 38.6% to 40.8%. Instead, they slightly *declined*, to 38.2%. This implies that, even after adjusting for population changes, Americans today form fewer independent households than in the past.
 
+- **Together, these findings point to a shortfall in household formation.** Using household size as a benchmark, we estimate a minimum shortfall of 1.9 million households in 2019 relative to expectations based on 2000 patterns.
+Using headship rates as an alternative metric, the shortfall is roughly 8.4 million households. (For details on why the household-size estimate is a lower bound, as well as proofs of the decomposition and measurement properties, please see Figure 1 and associated explanation in the full text.)
+
+- **Whether or not this shortage in households reflects a housing supply issue or changes in cultural preferences is yet to be seen.**
+
   
-## ⚡ Quick Start
+## ⚡ How to Replicate: Quick Start
 For experienced users who just want to get the project running right away. If you
 have trouble following these steps, please follow the **Detailed Start** guide below.
 
@@ -62,7 +68,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     source("run-all.R")
     ```
     
-## 📎 Detailed Start
+## 📎 How to Replicate: Detailed Start
 Detailed instructions for how to fully install and run this project code on your computer.
 
 ###  Part A: Clone the repo and configure the R project

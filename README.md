@@ -24,8 +24,8 @@ We take a demographic decomposition approach proposed by Galster (2024) and acco
   
   Based on the same set of sociodemographic correlates, we would have expected headship rates to rise between 2000 and 2019, from 38.6% to 40.8%. Instead, they slightly *declined*, to 38.2%. This implies that, even after adjusting for population changes, Americans today form fewer independent households than in the past.
 
-- **Together, these findings point to a shortfall in household formation.** Using household size as a benchmark, we estimate a minimum shortfall of 1.9 million households in 2019 relative to expectations based on 2000 patterns.
-Using headship rates as an alternative metric, the shortfall is roughly 8.4 million households. (For details on why the household-size estimate is a lower bound, as well as proofs of the decomposition and measurement properties, please see Figure 1 and associated explanation in the full text.)
+- **Together, these findings point to a shortfall in household formation.** Using household size as a benchmark, we estimate a **minimum shortfall of 1.9 million households** in 2019 relative to expectations based on 2000 patterns.
+Using headship rates as an alternative metric, **the shortfall is 8.4 million households**. (For details on why the household-size estimate is a lower bound, and is lower than the headship measurement, as well as proofs of the decomposition and measurement properties, please see Figure 1 and associated explanation in the full text.)
 
 - **Whether or not this shortage in households reflects a housing supply issue or changes in cultural preferences is yet to be seen.**
 

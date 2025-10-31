@@ -27,7 +27,7 @@ We take a demographic decomposition approach proposed by Galster (2024) and acco
 - **Together, these findings point to a shortfall in household formation.** Using household size as a benchmark, we estimate a **minimum shortfall of 1.9 million households** in 2019 relative to expectations based on 2000 patterns.
 Using headship rates as an alternative metric, **the shortfall is 8.4 million households**. (For details on why the household-size estimate is a lower bound, and is lower than the headship measurement, as well as proofs of the decomposition and measurement properties, please see Figure 1 and associated explanation in the full text.)
 
-- **Whether or not this shortage in households reflects a housing supply issue or changes in cultural preferences is yet to be seen.**
+- **Our findings reveal that there is a sizable shortfall of households relative to standards from 2000. This could reflect constraints due to housing supply, or it could reflect changing norms around cohabitation. Further research is needed to distinguish between these two explanations.**
 
   
 ## ⚡ How to Replicate: Quick Start

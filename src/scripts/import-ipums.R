@@ -2,36 +2,20 @@
 #
 # This script processes raw IPUMS data and saves it in a DuckDB file.
 #
-# Input:
-# -  makes API call to IPUMS USA. Be sure to follow Part B of project set-up
-#    in README.md before running - this script reads an environment variable from 
-#    .Renviron
-#
-# Output:
-# -  docs/ipums-data-dictionary.html
-#    Interactive data dictionary including the items from the IPUMS data pull
-# -  docs/ipums_value_labels.RData
-#    List containing value labels for every variable in the ipums data pull
-# -  the db (what is it called?)
-#    TODO
+# ----- Step 0: Configuration ----- #
 
-# ----- Step 0: Load packages ----- #
 library("dplyr")
 library("duckdb")
 library("ipumsr")
 library("glue")
 
-# These packages are implicitly needed; loading them here purely for renv visibility
-# library("htmltools")
-# library("shiny")
-# library("DT")
-
+# Check for existence of .Renviron file
 if (!file.exists(".Renviron")) {
   stop(".Renviron file needed for this code to run. Please refer to Part B of the README file for configuration instructions.")
 } 
 
-# Read API key from project-local .Renviron
-readRenviron(".Renviron") # Force a re-read each run
+# Read and validate IPUMS API key from .Renviron
+readRenviron(".Renviron")
 ipums_api_key <- Sys.getenv("IPUMS_API_KEY")
 
 if (ipums_api_key == "" || ipums_api_key == "your_ipums_api_key") {
@@ -55,14 +39,12 @@ ipums_extract <- define_extract_micro(
     # Household-level
     "YEAR", "MULTYEAR", "SAMPLE", "SERIAL", "CBSERIAL", "HHWT",
     "CLUSTER", "STRATA", "GQ", "NUMPREC", "CPUMA0010",
-    "OWNERSHP", "OWNERSHPD", "HHINCOME", "ROOMS", 
-    "BEDROOMS",
+    "OWNERSHP", "OWNERSHPD", "HHINCOME",
     # Person-level
     "PERNUM", "PERWT","SEX", "AGE",
     "RACE", "RACED", "HISPAN", "HISPAND",
     "BPL", "BPLD", "CITIZEN",
     "EDUC", "EDUCD", "INCTOT"
-    # "REPWTP", "UNITSSTR", # Probably not needed, add back in if needed
   )
 )
 

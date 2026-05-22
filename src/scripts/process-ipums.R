@@ -16,12 +16,6 @@ library("ipumsr")
 library("readr")
 library("readxl")
 
-# These packages are implicitly needed; loading them here purely for renv visibility
-library("dbplyr")
-
-# temp: set working directory
-# setwd("/scratch/gpfs/ls4540/american-housing-shortfalls")
-
 # ----- Step 1: Source helper functions ----- #
 
 devtools::load_all("../demographr")
@@ -45,33 +39,32 @@ compute(
   overwrite = TRUE
 )
 
+# Create ipums_temp
+ipums_temp <- ipums_db
+
 # ----- Step 4: Add pers_id" and "hh_id" columns to "ipums_processed" ---- #
 
-# "pers_id" column
-dbExecute(con, "
-  ALTER TABLE ipums_processed ADD COLUMN pers_id TEXT;
-  UPDATE ipums_processed
-  SET pers_id = SAMPLE || '_' || SERIAL || '_' || PERNUM;
-")
+ipums_temp <- ipums_temp |>
+  mutate(
+    pers_id = paste0(SAMPLE, "_", SERIAL, "_", PERNUM),
+    hh_id = paste0(SAMPLE, "_", SERIAL)
+  )
 
 validate_row_counts(
-  db = tbl(con, "ipums_processed"),
+  db = ipums_temp,
   expected_count = obs_count,
-  step_description = "pers_id column was added"
+  step_description = "per_id and hh_id column was added"
 )
 
-# "hh_id" column
-dbExecute(con, "
-  ALTER TABLE ipums_processed ADD COLUMN hh_id TEXT;
-  UPDATE ipums_processed
-  SET hh_id = SAMPLE || '_' || SERIAL;
-")
 
-validate_row_counts(
-  db = tbl(con, "ipums_processed"),
-  expected_count = obs_count,
-  step_description = "hh_id column was added"
+compute(
+  ipums_temp
+  name = "ipums_processed",
+  temporary = FALSE,
+  overwrite = TRUE
 )
+
+tbl(con, "ipums_processed") |> glimpse()   
 
 # ----- Step 5: Generate and execute SQL queries for bucketed columns ----- #
 
